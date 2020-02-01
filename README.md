@@ -1,8 +1,11 @@
 # `springboot-okta`
 
-The goal of this project is to create a simple [Spring Boot](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) REST API, called `simple-service`, and secure it with [`Okta`](https://www.okta.com/).
+The goal of this project is to create a simple [Spring Boot](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) REST API, called `simple-service`. It uses [`Okta`](https://www.okta.com/) to handle authentication and authorization.
 
-> **Note:** In the repository [`springboot-react-okta`](https://github.com/ivangfr/springboot-react-okta) you can find a more complex example that involves: implementation of a [`ReactJS`](https://reactjs.org/) front-end application and a `Spring Boot` back-end application, both secured by `Okta`; enabling and creating `Okta` groups (a.k.a `ROLES` of the applications); adding new users; etc. 
+> **Note:** In the repository [`springboot-react-okta`](https://github.com/ivangfr/springboot-react-okta) you can find a more complex example that involves:
+> - implementation of a [`ReactJS`](https://reactjs.org/) front-end application and a `Spring Boot` back-end application, both secured by `Okta`;
+> - enabling and creating `Okta` groups (a.k.a `ROLES` of the applications);
+> - adding new users. 
 
 ## Application
 
