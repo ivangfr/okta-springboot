@@ -1,6 +1,6 @@
 # `springboot-okta`
 
-The goal of this project is to create a simple [Spring Boot](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) REST API, called `simple-service`. It uses [`Okta`](https://www.okta.com/) to handle authentication and authorization.
+The goal of this project is to create a simple [Spring Boot](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) REST API, called `simple-service`. It uses [`Okta`](https://www.okta.com/) to handle authentication.
 
 > **Note:** In the repository [`springboot-react-okta`](https://github.com/ivangfr/springboot-react-okta) you can find a more complex example that involves:
 > - implementation of a [`ReactJS`](https://reactjs.org/) front-end application and a `Spring Boot` back-end application, both secured by `Okta`;
@@ -61,8 +61,12 @@ Then, inside `springboot-okta` root folder, run the [`Maven`](https://maven.apac
 
 ### Test /public endpoint
 
-In a browser and access the URL `http://localhost:8080/public`. It should return `It is public.`
+1. In a browser and access the URL `http://localhost:8080/public`
+1. It should return `It is public.`
 
 ### Test /private endpoint
 
-In a browser and access the URL `http://localhost:8080/private`. It should redirect you to `Okta` login page. Enter your `username` and `password` (the ones you used to create a free `Okta` account). If you inform your credentials correctly, it should return `<YOUR FULLNAME>, it is private.`
+1. In a browser and access the URL `http://localhost:8080/private`.
+1. It should redirect you to `Okta` login page.
+1. Enter your `username` and `password` (the ones you used to create a free `Okta` account).
+1. If you informed your credentials correctly, it should return `<YOUR FULLNAME>, it is private.`
