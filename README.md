@@ -65,8 +65,7 @@ First of all, you must create a free account at https://developer.okta.com/signu
   - It should return `It is public.`
 
 - Test `/private` endpoint
-
-- In a browser and access the URL `http://localhost:8080/private`
+  - In a browser and access the URL `http://localhost:8080/private`
   - It should redirect you to `Okta` login page
   - Enter your `username` and `password` (the ones you used to create a free `Okta` account)
   - If you informed your credentials correctly, it should return `<YOUR FULLNAME>, it is private.`
