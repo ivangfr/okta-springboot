@@ -1,4 +1,4 @@
-package com.mycompany.simpleservice.config;
+package com.mycompany.simpleservice.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -10,9 +10,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests()
+        http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/private").authenticated()
-                .anyRequest().permitAll();
+                .antMatchers(HttpMethod.GET, "/public").permitAll()
+                .anyRequest().authenticated();
     }
 
 }

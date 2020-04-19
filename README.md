@@ -1,4 +1,4 @@
-# `springboot-okta`
+# springboot-okta
 
 The goal of this project is to create a simple [Spring Boot](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) REST API, called `simple-service`. It uses [`Okta`](https://www.okta.com/) to handle authentication.
 
@@ -9,12 +9,11 @@ The goal of this project is to create a simple [Spring Boot](https://docs.spring
 
 ## Application
 
-### simple-service
+- **simple-service**
 
-`Spring Boot` Web Java application that exposes two endpoints:
-
-- `/api/public`: endpoint that can be access by anyone, it is not secured;
-- `/api/private`: endpoint that can just be accessed by users registered in `Okta`.
+  `Spring Boot` Web Java application that exposes two endpoints:
+  - `/api/public`: endpoint that can be access by anyone, it is not secured
+  - `/api/private`: endpoint that can just be accessed by users registered in `Okta`
 
 ## Configure Okta
 
@@ -45,28 +44,29 @@ First of all, you must create a free account at https://developer.okta.com/signu
 
 ## Start application
 
-In a terminal, export the following environment variables. Those values were obtained while configuring `Okta`. See [`Configuring Okta > Add an OpenID Connect Client`](https://github.com/ivangfr/springboot-okta#add-an-openid-connect-client) section.
-```
-export OKTA_DOMAIN=...
-export OKTA_CLIENT_ID=...
-export OKTA_CLIENT_SECRET=...
-```
+- Open a terminal and make sure you are in `springboot-okta` root folder
 
-Then, inside `springboot-okta` root folder, run the [`Maven`](https://maven.apache.org/) command below
-```
-./mvnw spring-boot:run --projects simple-service
-```
+- Export the following environment variables. Those values were obtained while configuring `Okta`. See [`Configuring Okta > Add an OpenID Connect Client`](https://github.com/ivangfr/springboot-okta#add-an-openid-connect-client) section.
+  ```
+  export OKTA_DOMAIN=...
+  export OKTA_CLIENT_ID=...
+  export OKTA_CLIENT_SECRET=...
+  ```
+
+- Then, run the [`Maven`](https://maven.apache.org/) command below
+  ```
+  ./mvnw spring-boot:run --projects simple-service
+  ```
 
 ## Testing simple-service endpoints
 
-### Test /public endpoint
+- Test `/public` endpoint
+  - In a browser and access the URL `http://localhost:8080/public`
+  - It should return `It is public.`
 
-1. In a browser and access the URL `http://localhost:8080/public`
-1. It should return `It is public.`
+- Test `/private` endpoint
 
-### Test /private endpoint
-
-1. In a browser and access the URL `http://localhost:8080/private`.
-1. It should redirect you to `Okta` login page.
-1. Enter your `username` and `password` (the ones you used to create a free `Okta` account).
-1. If you informed your credentials correctly, it should return `<YOUR FULLNAME>, it is private.`
+- In a browser and access the URL `http://localhost:8080/private`
+  - It should redirect you to `Okta` login page
+  - Enter your `username` and `password` (the ones you used to create a free `Okta` account)
+  - If you informed your credentials correctly, it should return `<YOUR FULLNAME>, it is private.`
