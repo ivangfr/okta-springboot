@@ -42,6 +42,10 @@ First of all, you must create a free account at https://developer.okta.com/signu
   | Client ID     | 0bcky2d71eXtSsscC123        | In the applications list or on the `General` tab of a specific app |
   | Client Secret | m6tgtn_70aXNdtIKbeAAxXvEaoi9aVxeFX68If-T | On the `General` tab of a specific app                |
 
+## Prerequisites
+
+- `Java 11+`
+
 ## Start application
 
 - Open a terminal and make sure you are in `springboot-okta` root folder
@@ -61,11 +65,11 @@ First of all, you must create a free account at https://developer.okta.com/signu
 ## Testing simple-service endpoints
 
 - Test `/public` endpoint
-  - In a browser and access the URL `http://localhost:8080/public`
+  - In a browser and access http://localhost:8080/public
   - It should return `It is public.`
 
 - Test `/private` endpoint
-  - In a browser and access the URL `http://localhost:8080/private`
+  - In a browser and access http://localhost:8080/private
   - It should redirect you to `Okta` login page
   - Enter your `username` and `password` (the ones you used to create a free `Okta` account)
   - If you informed your credentials correctly, it should return `<YOUR FULLNAME>, it is private.`

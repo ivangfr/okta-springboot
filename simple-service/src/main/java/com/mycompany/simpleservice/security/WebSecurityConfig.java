@@ -13,6 +13,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/private").authenticated()
                 .antMatchers(HttpMethod.GET, "/public").permitAll()
+                .antMatchers(HttpMethod.GET, "/actuator", "/actuator/**").permitAll()
                 .anyRequest().authenticated();
     }
 
