@@ -1,15 +1,15 @@
-# springboot-okta
+# okta-springboot
 
 The goal of this project is to create a simple [Spring Boot](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) REST API, called `simple-service`. It uses [`Okta`](https://www.okta.com/) to handle authentication.
 
-> **Note:** In the repository [`springboot-react-okta`](https://github.com/ivangfr/springboot-react-okta) you can find a more complex example that involves:
+> **Note:** In the repository [`okta-springboot-react`](https://github.com/ivangfr/okta-springboot-react) you can find a more complex example that involves:
 > - implementation of a [`ReactJS`](https://reactjs.org/) front-end application and a `Spring Boot` back-end application, both secured by `Okta`;
 > - enabling and creating `Okta` groups (a.k.a `ROLES` of the applications);
 > - adding new users. 
 
 ## Application
 
-- **simple-service**
+- ### simple-service
 
   `Spring Boot` Web Java application that exposes two endpoints:
   - `/api/public`: endpoint that can be access by anyone, it is not secured
@@ -44,13 +44,13 @@ First of all, you must create a free account at https://developer.okta.com/signu
 
 ## Prerequisites
 
-- `Java 11+`
+- [`Java 11+`](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
 
 ## Start application
 
-- Open a terminal and make sure you are in `springboot-okta` root folder
+- Open a terminal and make sure you are in `okta-springboot` root folder
 
-- Export the following environment variables. Those values were obtained while configuring `Okta`. See [`Configuring Okta > Add an OpenID Connect Client`](https://github.com/ivangfr/springboot-okta#add-an-openid-connect-client) section.
+- Export the following environment variables. Those values were obtained while configuring `Okta`. See [`Configuring Okta > Add an OpenID Connect Client`](https://github.com/ivangfr/okta-springboot#add-an-openid-connect-client) section.
   ```
   export OKTA_DOMAIN=...
   export OKTA_CLIENT_ID=...

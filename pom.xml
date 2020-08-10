@@ -6,16 +6,16 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.1.RELEASE</version>
+        <version>2.3.2.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>com.mycompany</groupId>
-    <artifactId>springboot-okta</artifactId>
+    <artifactId>okta-springboot</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>springboot-okta</name>
+    <name>okta-springboot</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
