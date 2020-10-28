@@ -15,6 +15,11 @@ The goal of this project is to create a simple [Spring Boot](https://docs.spring
   - `/api/public`: endpoint that can be access by anyone, it is not secured
   - `/api/private`: endpoint that can just be accessed by users registered in `Okta`
 
+## Prerequisites
+
+- [`Java 11+`](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
+- [`Okta` account](https://developer.okta.com/signup/)
+
 ## Configure Okta
 
 First of all, you must create a free account at https://developer.okta.com/signup/. Once you have it, log in and let's start the configuration.
@@ -41,10 +46,6 @@ First of all, you must create a free account at https://developer.okta.com/signu
   | Okta Domain   | dev-123456.okta.com         | It is the Org URL without `https://`                               |
   | Client ID     | 0bcky2d71eXtSsscC123        | In the applications list or on the `General` tab of a specific app |
   | Client Secret | m6tgtn_70aXNdtIKbeAAxXvEaoi9aVxeFX68If-T | On the `General` tab of a specific app                |
-
-## Prerequisites
-
-- [`Java 11+`](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
 
 ## Start application
 
