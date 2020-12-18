@@ -1,6 +1,6 @@
 # okta-springboot
 
-The goal of this project is to create a simple [Spring Boot](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) REST API, called `simple-service`. It uses [`Okta`](https://www.okta.com/) to handle authentication.
+The goal of this project is to create a simple [Spring Boot](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) REST API application, called `simple-service`, that uses [`Okta`](https://www.okta.com/) to handle authentication.
 
 > **Note:** In the repository [`okta-springboot-react`](https://github.com/ivangfr/okta-springboot-react) you can find a more complex example that involves:
 > - implementation of a [`ReactJS`](https://reactjs.org/) front-end application and a `Spring Boot` back-end application, both secured by `Okta`;
@@ -26,8 +26,8 @@ First of all, you must create a free account at https://developer.okta.com/signu
 
 ### Add an OpenID Connect Client
 
-- In `Okta Developer Dashboard`, click on `Applications` and then on `Add Application` button.
-- Select `Web` and click on `Next` button.
+- In `Okta Developer Dashboard`, click on `Applications` and then on `Add Application` button
+- Select `Web` and click on `Next` button
 - Enter the following values in the form
 
   | Setting              | Value                                        |
@@ -51,7 +51,7 @@ First of all, you must create a free account at https://developer.okta.com/signu
 
 - Open a terminal and make sure you are in `okta-springboot` root folder
 
-- Export the following environment variables. Those values were obtained while configuring `Okta`. See [`Configuring Okta > Add an OpenID Connect Client`](https://github.com/ivangfr/okta-springboot#add-an-openid-connect-client) section.
+- Export the following environment variables. These values were obtained while configuring `Okta`. See [`Configuring Okta > Add an OpenID Connect Client`](https://github.com/ivangfr/okta-springboot#add-an-openid-connect-client) section.
   ```
   export OKTA_DOMAIN=...
   export OKTA_CLIENT_ID=...
@@ -63,7 +63,7 @@ First of all, you must create a free account at https://developer.okta.com/signu
   ./mvnw spring-boot:run --projects simple-service
   ```
 
-## Testing simple-service endpoints
+## Testing endpoints
 
 - Test `/public` endpoint
   - In a browser and access http://localhost:8080/public
