@@ -3,9 +3,8 @@
 The goal of this project is to create a simple [Spring Boot](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) REST API application, called `simple-service`, that uses [`Okta`](https://www.okta.com/) to handle authentication.
 
 > **Note:** In the repository [`okta-springboot-react`](https://github.com/ivangfr/okta-springboot-react) you can find a more complex example that involves:
-> - implementation of a [`ReactJS`](https://reactjs.org/) front-end application and a `Spring Boot` back-end application, both secured by `Okta`;
-> - enabling and creating `Okta` groups (a.k.a `ROLES` of the applications);
-> - adding new users. 
+> - implementation of a [`ReactJS`](https://reactjs.org/) front-end application and a `Spring Boot` back-end application, both secured by `Okta`
+> - enabling and creating `Okta` groups (a.k.a `ROLES` of the applications)
 
 ## Application
 
@@ -22,40 +21,78 @@ The goal of this project is to create a simple [Spring Boot](https://docs.spring
 
 ## Configure Okta
 
-First of all, you must create a free account at https://developer.okta.com/signup/. Once you have it, log in and let's start the configuration.
+### Access Developer Edition Account
 
-### Add an OpenID Connect Client
+- If you do not already have a Developer Edition Account, you can create one at https://developer.okta.com/signup/
+- If you already have, access https://developer.okta.com/login/
 
-- In `Okta Developer Dashboard`, click on `Applications` and then on `Add Application` button
-- Select `Web` and click on `Next` button
-- Enter the following values in the form
+### Access Okta Admin Dashboard
 
-  | Setting              | Value                                        |
-  | -------------------- | -------------------------------------------- |
-  | Name                 | Simple Service                               |
-  | Base URIs            | http://localhost:8080/                       |
-  | Login redirect URIs  | http://localhost:8080/login/oauth2/code/okta |
-  | Logout redirect URIs | http://localhost:8080                        |
-  | Grant Types Allowed  | Authorization Code                           |
+If you are in `Okta Developer Dashboard` home page, click `Admin` button on the top-right
 
-- After the application is created, there are some values that you will need during all project configuration and execution.
+![okta-developer-home](images/okta-developer-home.png)
 
-  | Setting       | Example (fake)              | Where to Find                                                      |
-  | ------------- | --------------------------- | ------------------------------------------------------------------ |
-  | Org URL       | https://dev-123456.okta.com | On the home screen of the developer dashboard, in the upper right  |
-  | Okta Domain   | dev-123456.okta.com         | It is the Org URL without `https://`                               |
-  | Client ID     | 0bcky2d71eXtSsscC123        | In the applications list or on the `General` tab of a specific app |
-  | Client Secret | m6tgtn_70aXNdtIKbeAAxXvEaoi9aVxeFX68If-T | On the `General` tab of a specific app                |
+The picture below is how `Okta Admin Dashboard` looks like
+
+![okta-admin-dashboard](images/okta-admin-dashboard.png)
+
+### Add Application
+
+- In `Okta Admin Dashboard` main menu on the left, click `Applications` menu and then `Applications` sub-menu
+- On the next page, click `Add Application` button
+- Then, click `Create New App` button
+- Select `Web` as _Platform_, `OpenID Connect` as _Sign on method_, and click `Create` button
+- Enter the following values in the form and, once it's done, click `Save` button
+  - Application name: `Simple Service`
+  - Login redirect URIs: `http://localhost:8080/login/oauth2/code/okta`
+  - Logout redirect URIs: `http://localhost:8080`
+- On the next screen, it's shown the 3 important values you will need to configure and run the `Simple Service`: `Client ID`, `Client Secret` and `Okta Domain`
+  
+### Add Person
+
+- In `Okta Admin Dashboard` main menu on the left, click `Directory` menu and then `People` sub-menu
+- On the next page, click `Add person` button
+- Enter the following information
+  - First name: `Mario`
+  - Last name: `Bros`
+  - Username: `mario.bros@test.com`
+  - Primary email: `mario.bros@test.com`
+  - Password: `Set by admin`
+    (Set a strong password in the text-field that will appear)
+  - `Uncheck` the check-box that says _"User must change password on first login"_
+- To finish, click `Save` button
+
+### Assign Person to Application
+
+- In `Okta Admin Dashboard` main menu on the left, click `Applications` menu and then `Applications` sub-menu
+- On the next page, click `Assign Users to App` button
+- Then, select the `Simple Service` on the _Applications_ column and `Mario Bros` on the _People_ column. Click `Next` button to continue assignment process
+- To finish, click `Confirm Assignments` button
+
+### Fix Person username
+
+> **Warning:** if we don't do the fix, we will see the following error
+> ```
+> Login with OAuth 2.0
+> [invalid_token_response] An error occurred while attempting to retrieve the OAuth 2.0 Access Token Response: 400 Bad Request: [{"error":"server_error","error_description":"The 'sub' system claim could not be evaluated."}]
+>```
+
+- In `Okta Admin Dashboard` main menu on the left, click `Applications` menu and then `Applications` sub-menu
+- In Applications list whose status are `ACTIVE`, select `Simple Service` application
+- Click `Assignments` tab
+- Edit `Mario Bros` by clicking on the `pen` icon
+- In the `User Name` text-field set `Mario Bros`
+- To finish, click `Save` button
 
 ## Start application
 
 - Open a terminal and make sure you are in `okta-springboot` root folder
 
-- Export the following environment variables. These values were obtained while configuring `Okta`. See [`Configuring Okta > Add an OpenID Connect Client`](https://github.com/ivangfr/okta-springboot#add-an-openid-connect-client) section.
+- Export the following environment variables. Those values were obtained while (adding Application)[#add-application].
   ```
-  export OKTA_DOMAIN=...
   export OKTA_CLIENT_ID=...
   export OKTA_CLIENT_SECRET=...
+  export OKTA_DOMAIN=...
   ```
 
 - Then, run the [`Maven`](https://maven.apache.org/) command below
@@ -72,5 +109,28 @@ First of all, you must create a free account at https://developer.okta.com/signu
 - Test `/private` endpoint
   - In a browser and access http://localhost:8080/private
   - It should redirect you to `Okta` login page
-  - Enter your `username` and `password` (the ones you used to create a free `Okta` account)
-  - If you informed your credentials correctly, it should return `<YOUR FULLNAME>, it is private.`
+  - Enter `Mario Bros` username (`mario.bros@test.com`) and password
+  - It should return `Mario Bros, it is private.`
+
+## Shutdown Application
+
+In order to stop `simple-service` application, go to its terminal and press `Ctrl+C`
+
+## Okta Clean Up
+
+### Delete Person
+
+- In `Okta Admin Dashboard` main menu on the left, click `Directory` menu and then `People` sub-menu
+- Click `Mario Bros` in the People list
+- In `Mario Bros` profile, click `More Actions` multi-button and then `Deactivate`
+- Confirm deactivation by clicking on `Deactivate` button
+- To finish, still in `Mario Bros` profile, click `Delete` button
+- Confirm deletion by clicking on `Delete` button
+
+### Delete Application
+
+- In `Okta Admin Dashboard` main menu on the left, click `Applications` menu and then `Applications` sub-menu
+- In Application list whose status is `ACTIVE`, click `Simple Service`'s `gear` icon and then click `Deactivate`
+- Confirm deactivation by clicking on `Deactivate Application` button
+- In Application list whose status is `INACTIVE`, click `Simple Service`'s `gear` icon and then click `Delete`
+- Confirm deletion by clicking on `Delete Application` button
