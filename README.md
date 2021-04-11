@@ -97,9 +97,8 @@ The picture below is how `Okta Admin Dashboard` looks like
 
 - ### Running application using Maven
 
-  Run the [`Maven`](https://maven.apache.org/) command below
   ```
-  ./mvnw spring-boot:run --projects simple-service
+  ./mvnw clean spring-boot:run --projects simple-service
   ```
 
 - ### Running application as a Docker container
