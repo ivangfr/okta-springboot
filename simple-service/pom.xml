@@ -5,12 +5,11 @@
     <parent>
         <groupId>com.mycompany</groupId>
         <artifactId>okta-springboot</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>1.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>simple-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>simple-service</name>
     <description>Demo project for Spring Boot</description>
 

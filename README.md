@@ -95,10 +95,43 @@ The picture below is how `Okta Admin Dashboard` looks like
   export OKTA_DOMAIN=...
   ```
 
-- Then, run the [`Maven`](https://maven.apache.org/) command below
+- ### Running application using Maven
+
+  Run the [`Maven`](https://maven.apache.org/) command below
   ```
   ./mvnw spring-boot:run --projects simple-service
   ```
+
+- ### Running application as a Docker container
+
+  - **Build Docker Image**
+    
+    - JVM
+      ```
+      ./docker-build.sh
+      ```
+    - Native (it's not implemented yet)
+      ```
+      ./docker-build.sh native
+      ```
+
+  - **Environment Variables**
+    
+    | Environment Variable | Description                                 |
+    | -------------------- | ------------------------------------------- |
+    | `OKTA_CLIENT_ID`     | Specify the `Client ID` defined by Okta     |
+    | `OKTA_CLIENT_SECRET` | Specify the `Client Secret` defined by Okta |
+    | `OKTA_DOMAIN`        | Specify the `Domain` defined by Okta        |
+
+  - **Start Docker Container**
+    
+    ```
+    docker run -d --rm --name simple-service -p 8080:8080 \
+      --env OKTA_CLIENT_ID=${OKTA_CLIENT_ID} \
+      --env OKTA_CLIENT_SECRET=${OKTA_CLIENT_SECRET} \
+      --env OKTA_DOMAIN=${OKTA_DOMAIN} \
+      docker.mycompany.com/simple-service:1.0.0
+    ```
 
 ## Testing endpoints
 
@@ -114,7 +147,11 @@ The picture below is how `Okta Admin Dashboard` looks like
 
 ## Shutdown Application
 
-In order to stop `simple-service` application, go to its terminal and press `Ctrl+C`
+- If it was started with `Maven`, go to the terminal where it is running and press `Ctrl+C`
+- If it was started as a Docker container, run the following command in a terminal
+  ```
+  docker stop simple-service
+  ```
 
 ## Okta Clean Up
 
