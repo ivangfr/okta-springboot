@@ -98,7 +98,7 @@ The picture below is how `Okta Admin Dashboard` looks like
 - ### Running application using Maven
 
   ```
-  ./mvnw clean spring-boot:run --projects simple-service
+  ./mvnw clean package spring-boot:run --projects simple-service -DskipTests
   ```
 
 - ### Running application as a Docker container
@@ -109,7 +109,7 @@ The picture below is how `Okta Admin Dashboard` looks like
       ```
       ./docker-build.sh
       ```
-    - Native (it's not implemented yet)
+    - Native (it's not working yet, see [Issues](#issues))
       ```
       ./docker-build.sh native
       ```
@@ -170,3 +170,46 @@ The picture below is how `Okta Admin Dashboard` looks like
 - Confirm deactivation by clicking on `Deactivate Application` button
 - In Application list whose status is `INACTIVE`, click `Simple Service`'s `gear` icon and then click `Delete`
 - Confirm deletion by clicking on `Delete Application` button
+
+## Issues
+
+The native Docker images is built successfully, but the following exception is thrown at runtime, during the startup
+```
+ERROR 1 --- [           main] o.s.boot.SpringApplication               : Application run failed
+
+java.lang.IllegalStateException: Error processing condition on com.okta.spring.boot.oauth.OktaOAuth2ResourceServerAutoConfig.opaqueTokenIntrospector
+	at org.springframework.boot.autoconfigure.condition.SpringBootCondition.matches(SpringBootCondition.java:60) ~[com.mycompany.simpleservice.SimpleServiceApplication:na]
+	at org.springframework.context.annotation.ConditionEvaluator.shouldSkip(ConditionEvaluator.java:108) ~[na:na]
+	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitionsForBeanMethod(ConfigurationClassBeanDefinitionReader.java:193) ~[na:na]
+	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitionsForConfigurationClass(ConfigurationClassBeanDefinitionReader.java:153) ~[na:na]
+	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitions(ConfigurationClassBeanDefinitionReader.java:129) ~[na:na]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.processConfigBeanDefinitions(ConfigurationClassPostProcessor.java:343) ~[com.mycompany.simpleservice.SimpleServiceApplication:5.3.6]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(ConfigurationClassPostProcessor.java:247) ~[com.mycompany.simpleservice.SimpleServiceApplication:5.3.6]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanDefinitionRegistryPostProcessors(PostProcessorRegistrationDelegate.java:311) ~[na:na]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:112) ~[na:na]
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:746) ~[na:na]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:564) ~[na:na]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:144) ~[na:na]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:782) ~[com.mycompany.simpleservice.SimpleServiceApplication:na]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:774) ~[com.mycompany.simpleservice.SimpleServiceApplication:na]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[com.mycompany.simpleservice.SimpleServiceApplication:na]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:339) ~[com.mycompany.simpleservice.SimpleServiceApplication:na]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1340) ~[com.mycompany.simpleservice.SimpleServiceApplication:na]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1329) ~[com.mycompany.simpleservice.SimpleServiceApplication:na]
+	at com.mycompany.simpleservice.SimpleServiceApplication.main(SimpleServiceApplication.java:12) ~[com.mycompany.simpleservice.SimpleServiceApplication:na]
+Caused by: java.lang.IllegalStateException: java.io.FileNotFoundException: class path resource [com/okta/spring/boot/oauth/OktaOpaqueTokenIntrospectConditional$IssuerCondition.class] cannot be opened because it does not exist
+	at org.springframework.boot.autoconfigure.condition.AbstractNestedCondition$MemberConditions.getMetadata(AbstractNestedCondition.java:149) ~[na:na]
+	at org.springframework.boot.autoconfigure.condition.AbstractNestedCondition$MemberConditions.getMemberConditions(AbstractNestedCondition.java:121) ~[na:na]
+	at org.springframework.boot.autoconfigure.condition.AbstractNestedCondition$MemberConditions.<init>(AbstractNestedCondition.java:114) ~[na:na]
+	at org.springframework.boot.autoconfigure.condition.AbstractNestedCondition.getMatchOutcome(AbstractNestedCondition.java:62) ~[com.mycompany.simpleservice.SimpleServiceApplication:na]
+	at org.springframework.boot.autoconfigure.condition.SpringBootCondition.matches(SpringBootCondition.java:47) ~[com.mycompany.simpleservice.SimpleServiceApplication:na]
+	... 18 common frames omitted
+Caused by: java.io.FileNotFoundException: class path resource [com/okta/spring/boot/oauth/OktaOpaqueTokenIntrospectConditional$IssuerCondition.class] cannot be opened because it does not exist
+	at org.springframework.core.io.ClassPathResource.getInputStream(ClassPathResource.java:187) ~[na:na]
+	at org.springframework.core.type.classreading.SimpleMetadataReader.getClassReader(SimpleMetadataReader.java:55) ~[na:na]
+	at org.springframework.core.type.classreading.SimpleMetadataReader.<init>(SimpleMetadataReader.java:49) ~[na:na]
+	at org.springframework.core.type.classreading.SimpleMetadataReaderFactory.getMetadataReader(SimpleMetadataReaderFactory.java:103) ~[na:na]
+	at org.springframework.core.type.classreading.SimpleMetadataReaderFactory.getMetadataReader(SimpleMetadataReaderFactory.java:81) ~[na:na]
+	at org.springframework.boot.autoconfigure.condition.AbstractNestedCondition$MemberConditions.getMetadata(AbstractNestedCondition.java:146) ~[na:na]
+	... 22 common frames omitted
+```
