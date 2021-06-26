@@ -83,7 +83,7 @@ The picture below is how `Okta Admin Dashboard` looks like
 - ### Running application using Maven
 
   ```
-  ./mvnw clean package spring-boot:run --projects simple-service -DskipTests
+  ./mvnw clean spring-boot:run --projects simple-service
   ```
 
 - ### Running application as a Docker container
@@ -111,9 +111,9 @@ The picture below is how `Okta Admin Dashboard` looks like
     
     ```
     docker run --rm --name simple-service -p 8080:8080 \
-      --env OKTA_CLIENT_ID=${OKTA_CLIENT_ID} \
-      --env OKTA_CLIENT_SECRET=${OKTA_CLIENT_SECRET} \
-      --env OKTA_DOMAIN=${OKTA_DOMAIN} \
+      -e OKTA_CLIENT_ID=${OKTA_CLIENT_ID} \
+      -e OKTA_CLIENT_SECRET=${OKTA_CLIENT_SECRET} \
+      -e OKTA_DOMAIN=${OKTA_DOMAIN} \
       ivanfranchin/simple-service:1.0.0
     ```
 
@@ -131,7 +131,11 @@ The picture below is how `Okta Admin Dashboard` looks like
 
 ## Shutdown Application
 
-Go to the terminal where it is running and press `Ctrl+C`
+- Go to the terminal where it is running and press `Ctrl+C`
+- To remove the Docker images created by this project, run
+  ```
+  ./remove-docker-images.sh
+  ```
 
 ## Okta Clean Up
 
@@ -154,43 +158,57 @@ Go to the terminal where it is running and press `Ctrl+C`
 
 ## Issues
 
-The native Docker image is built successfully, but the following exception is thrown at startup
+Unable to build to Docker native image
 ```
-ERROR 1 --- [           main] o.s.boot.SpringApplication               : Application run failed
-
-java.lang.IllegalStateException: Error processing condition on com.okta.spring.boot.oauth.OktaOAuth2ResourceServerAutoConfig.opaqueTokenIntrospector
-	at org.springframework.boot.autoconfigure.condition.SpringBootCondition.matches(SpringBootCondition.java:60) ~[com.mycompany.simpleservice.SimpleServiceApplication:2.4.7]
-	at org.springframework.context.annotation.ConditionEvaluator.shouldSkip(ConditionEvaluator.java:108) ~[na:na]
-	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitionsForBeanMethod(ConfigurationClassBeanDefinitionReader.java:193) ~[na:na]
-	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitionsForConfigurationClass(ConfigurationClassBeanDefinitionReader.java:153) ~[na:na]
-	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitions(ConfigurationClassBeanDefinitionReader.java:129) ~[na:na]
-	at org.springframework.context.annotation.ConfigurationClassPostProcessor.processConfigBeanDefinitions(ConfigurationClassPostProcessor.java:343) ~[com.mycompany.simpleservice.SimpleServiceApplication:5.3.8]
-	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(ConfigurationClassPostProcessor.java:247) ~[com.mycompany.simpleservice.SimpleServiceApplication:5.3.8]
-	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanDefinitionRegistryPostProcessors(PostProcessorRegistrationDelegate.java:311) ~[na:na]
-	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:112) ~[na:na]
-	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:746) ~[na:na]
-	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:564) ~[na:na]
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:144) ~[na:na]
-	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:771) ~[com.mycompany.simpleservice.SimpleServiceApplication:2.4.7]
-	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:763) ~[com.mycompany.simpleservice.SimpleServiceApplication:2.4.7]
-	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:438) ~[com.mycompany.simpleservice.SimpleServiceApplication:2.4.7]
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:339) ~[com.mycompany.simpleservice.SimpleServiceApplication:2.4.7]
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1329) ~[com.mycompany.simpleservice.SimpleServiceApplication:2.4.7]
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1318) ~[com.mycompany.simpleservice.SimpleServiceApplication:2.4.7]
-	at com.mycompany.simpleservice.SimpleServiceApplication.main(SimpleServiceApplication.java:12) ~[com.mycompany.simpleservice.SimpleServiceApplication:na]
-Caused by: java.lang.IllegalStateException: java.io.FileNotFoundException: class path resource [com/okta/spring/boot/oauth/OktaOpaqueTokenIntrospectConditional$IssuerCondition.class] cannot be opened because it does not exist
-	at org.springframework.boot.autoconfigure.condition.AbstractNestedCondition$MemberConditions.getMetadata(AbstractNestedCondition.java:149) ~[na:na]
-	at org.springframework.boot.autoconfigure.condition.AbstractNestedCondition$MemberConditions.getMemberConditions(AbstractNestedCondition.java:121) ~[na:na]
-	at org.springframework.boot.autoconfigure.condition.AbstractNestedCondition$MemberConditions.<init>(AbstractNestedCondition.java:114) ~[na:na]
-	at org.springframework.boot.autoconfigure.condition.AbstractNestedCondition.getMatchOutcome(AbstractNestedCondition.java:62) ~[com.mycompany.simpleservice.SimpleServiceApplication:2.4.7]
-	at org.springframework.boot.autoconfigure.condition.SpringBootCondition.matches(SpringBootCondition.java:47) ~[com.mycompany.simpleservice.SimpleServiceApplication:2.4.7]
-	... 18 common frames omitted
-Caused by: java.io.FileNotFoundException: class path resource [com/okta/spring/boot/oauth/OktaOpaqueTokenIntrospectConditional$IssuerCondition.class] cannot be opened because it does not exist
-	at org.springframework.core.io.ClassPathResource.getInputStream(ClassPathResource.java:187) ~[na:na]
-	at org.springframework.core.type.classreading.SimpleMetadataReader.getClassReader(SimpleMetadataReader.java:55) ~[na:na]
-	at org.springframework.core.type.classreading.SimpleMetadataReader.<init>(SimpleMetadataReader.java:49) ~[na:na]
-	at org.springframework.core.type.classreading.SimpleMetadataReaderFactory.getMetadataReader(SimpleMetadataReaderFactory.java:103) ~[na:na]
-	at org.springframework.core.type.classreading.SimpleMetadataReaderFactory.getMetadataReader(SimpleMetadataReaderFactory.java:81) ~[na:na]
-	at org.springframework.boot.autoconfigure.condition.AbstractNestedCondition$MemberConditions.getMetadata(AbstractNestedCondition.java:146) ~[na:na]
-	... 22 common frames omitted
+[INFO] --- spring-aot-maven-plugin:0.10.1-SNAPSHOT:test-generate (test-generate) @ simple-service ---
+[INFO] Spring Native operating mode: native
+[ERROR] java.lang.IllegalStateException: ERROR: in 'com.okta.spring.boot.oauth.OktaOAuth2AutoConfig'
+  these methods are directly invoking methods marked @Bean: [oidcUserService] - due to the enforced proxyBeanMethods=false
+  for components in a native-image, please consider refactoring to use instance injection. If you are confident this is
+  not going to affect your application, you may turn this check off using -Dspring.native.verify=false.
+[ERROR] [org.springframework.nativex.type.Type.verifyComponent(Type.java:2480),
+  org.springframework.nativex.support.ResourcesHandler.processType(ResourcesHandler.java:1340),
+  org.springframework.nativex.support.ResourcesHandler.processType(ResourcesHandler.java:1007),
+  org.springframework.nativex.support.ResourcesHandler.checkAndRegisterConfigurationType(ResourcesHandler.java:997),
+  org.springframework.nativex.support.ResourcesHandler.processFactoriesKey(ResourcesHandler.java:925),
+  org.springframework.nativex.support.ResourcesHandler.processSpringFactory(ResourcesHandler.java:874),
+  org.springframework.nativex.support.ResourcesHandler.processSpringFactories(ResourcesHandler.java:697),
+  org.springframework.nativex.support.ResourcesHandler.register(ResourcesHandler.java:114),
+  org.springframework.nativex.support.SpringAnalyzer.analyze(SpringAnalyzer.java:87),
+  org.springframework.aot.nativex.ConfigurationContributor.contribute(ConfigurationContributor.java:70),
+  org.springframework.aot.BootstrapCodeGenerator.generate(BootstrapCodeGenerator.java:75),
+  org.springframework.aot.maven.TestGenerateMojo.execute(TestGenerateMojo.java:65),
+  org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo(DefaultBuildPluginManager.java:137),
+  org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:210),
+  org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:156),
+  org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:148),
+  org.apache.maven.lifecycle.internal.MojoExecutor.executeForkedExecutions(MojoExecutor.java:355),
+  org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:200),
+  org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:156),
+  org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:148),
+  org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:117),
+  org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:81),
+  org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build(SingleThreadedBuilder.java:56),
+  org.apache.maven.lifecycle.internal.LifecycleStarter.execute(LifecycleStarter.java:128),
+  org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:305),
+  org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:192),
+  org.apache.maven.DefaultMaven.execute(DefaultMaven.java:105),
+  org.apache.maven.cli.MavenCli.execute(MavenCli.java:957),
+  org.apache.maven.cli.MavenCli.doMain(MavenCli.java:289),
+  org.apache.maven.cli.MavenCli.main(MavenCli.java:193),
+  java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method),
+  java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62),
+  java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43),
+  java.base/java.lang.reflect.Method.invoke(Method.java:566),
+  org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced(Launcher.java:282),
+  org.codehaus.plexus.classworlds.launcher.Launcher.launch(Launcher.java:225),
+  org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode(Launcher.java:406),
+  org.codehaus.plexus.classworlds.launcher.Launcher.main(Launcher.java:347),
+  java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method),
+  java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62),
+  java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43),
+  java.base/java.lang.reflect.Method.invoke(Method.java:566),
+  org.apache.maven.wrapper.BootstrapMainStarter.start(BootstrapMainStarter.java:39),
+  org.apache.maven.wrapper.WrapperExecutor.execute(WrapperExecutor.java:122),
+  org.apache.maven.wrapper.MavenWrapperMain.main(MavenWrapperMain.java:61)]
 ```
