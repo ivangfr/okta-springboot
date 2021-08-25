@@ -40,11 +40,14 @@ The picture below is how `Okta Admin Dashboard` looks like
 
 - In the `Okta Admin Dashboard` main menu on the left, click `Applications` menu and then `Applications` sub-menu
 - In the next page, click `Create App Integration` button
-- Select `OIDC - OpenID Connect` as _Sign on method_, `Web Application` as _Application type_, and click `Next` button
+- Select `OIDC - OpenID Connect` as _Sign on method_ and `Web Application` as _Application type_. Click `Next` button
 - Enter the following values in the form
-  - App integration name : `Simple Service`
-  - Sign-in redirect URIs: `http://localhost:8080/login/oauth2/code/okta`
-  - Sign-out redirect URIs: `http://localhost:8080`
+  - General Settings
+    - App integration name: `Simple Service`
+    - Sign-in redirect URIs: `http://localhost:8080/login/oauth2/code/okta`
+    - Sign-out redirect URIs: `http://localhost:8080`
+  - Assignments
+    - Controlled access: `Skip group assignment for now`
 - Click `Save` button
 - On the next screen, it's shown the 3 important values you will need to configure and run the `Simple Service`: `Client ID`, `Client Secret` and `Okta Domain`
   
@@ -68,6 +71,20 @@ The picture below is how `Okta Admin Dashboard` looks like
 - In the next page, click `Assign Users to App` button
 - Select the `Simple Service` check-box in the _Applications_ column and `Mario Bros` check-box in the _People_ column. Click `Next` button to continue assignment process
 - Click `Confirm Assignments` button
+
+### Fix Person username
+
+> **Warning:** if we don't do the fix, we will see the following error
+> ```
+> Login with OAuth 2.0
+> [invalid_token_response] An error occurred while attempting to retrieve the OAuth 2.0 Access Token Response: 400 Bad Request: [{"error":"server_error","error_description":"The 'sub' system claim could not be evaluated."}]
+>```
+- In the `Okta Admin Dashboard` main menu on the left, click `Applications` menu and then `Applications` sub-menu
+- In Applications list whose status are `ACTIVE`, select `Simple Service` application
+- Click `Assignments` tab
+- Edit `Mario Bros` by clicking on the `pen` icon
+- Set `mario.bros@test.com` in the `User Name` text-field
+- Click `Save` button
 
 ## Start application
 
@@ -129,17 +146,22 @@ The picture below is how `Okta Admin Dashboard` looks like
   - Enter `Mario Bros` username (`mario.bros@test.com`) and password
   - It should return `Mario Bros, it is private.`
 
-## Shutdown Application
+## Shutdown
 
-- Go to the terminal where it is running and press `Ctrl+C`
-- To remove the Docker images created by this project, run
-  ```
-  ./remove-docker-images.sh
-  ```
+Go to the terminal where the application is running and press `Ctrl+C`
 
-## Okta Clean Up
+## Cleanup
 
-### Delete Person
+### Docker image
+
+To remove the Docker images created by this project, go to terminal and run the following command
+```
+docker rmi ivanfranchin/simple-service:1.0.0
+```
+
+### Okta Configuration
+
+#### Delete Person
 
 - In the `Okta Admin Dashboard` main menu on the left, click `Directory` menu and then `People` sub-menu
 - Click `Mario Bros` in the People list
@@ -148,7 +170,7 @@ The picture below is how `Okta Admin Dashboard` looks like
 - Still in `Mario Bros` profile, click `Delete` button
 - Confirm deletion by clicking `Delete` button
 
-### Delete Application
+#### Delete Application
 
 - In the `Okta Admin Dashboard` main menu on the left, click `Applications` menu and then `Applications` sub-menu
 - In Application list whose status is `ACTIVE`, click `Simple Service`'s `gear` icon and then click `Deactivate`
@@ -158,57 +180,12 @@ The picture below is how `Okta Admin Dashboard` looks like
 
 ## Issues
 
-Unable to build to Docker native image
+Unable to build to Docker native image, see [issue #192](https://github.com/okta/okta-spring-boot/issues/192)
 ```
-[INFO] --- spring-aot-maven-plugin:0.10.1-SNAPSHOT:test-generate (test-generate) @ simple-service ---
-[INFO] Spring Native operating mode: native
-[ERROR] java.lang.IllegalStateException: ERROR: in 'com.okta.spring.boot.oauth.OktaOAuth2AutoConfig'
-  these methods are directly invoking methods marked @Bean: [oidcUserService] - due to the enforced proxyBeanMethods=false
-  for components in a native-image, please consider refactoring to use instance injection. If you are confident this is
-  not going to affect your application, you may turn this check off using -Dspring.native.verify=false.
-[ERROR] [org.springframework.nativex.type.Type.verifyComponent(Type.java:2480),
-  org.springframework.nativex.support.ResourcesHandler.processType(ResourcesHandler.java:1340),
-  org.springframework.nativex.support.ResourcesHandler.processType(ResourcesHandler.java:1007),
-  org.springframework.nativex.support.ResourcesHandler.checkAndRegisterConfigurationType(ResourcesHandler.java:997),
-  org.springframework.nativex.support.ResourcesHandler.processFactoriesKey(ResourcesHandler.java:925),
-  org.springframework.nativex.support.ResourcesHandler.processSpringFactory(ResourcesHandler.java:874),
-  org.springframework.nativex.support.ResourcesHandler.processSpringFactories(ResourcesHandler.java:697),
-  org.springframework.nativex.support.ResourcesHandler.register(ResourcesHandler.java:114),
-  org.springframework.nativex.support.SpringAnalyzer.analyze(SpringAnalyzer.java:87),
-  org.springframework.aot.nativex.ConfigurationContributor.contribute(ConfigurationContributor.java:70),
-  org.springframework.aot.BootstrapCodeGenerator.generate(BootstrapCodeGenerator.java:75),
-  org.springframework.aot.maven.TestGenerateMojo.execute(TestGenerateMojo.java:65),
-  org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo(DefaultBuildPluginManager.java:137),
-  org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:210),
-  org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:156),
-  org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:148),
-  org.apache.maven.lifecycle.internal.MojoExecutor.executeForkedExecutions(MojoExecutor.java:355),
-  org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:200),
-  org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:156),
-  org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:148),
-  org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:117),
-  org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:81),
-  org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build(SingleThreadedBuilder.java:56),
-  org.apache.maven.lifecycle.internal.LifecycleStarter.execute(LifecycleStarter.java:128),
-  org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:305),
-  org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:192),
-  org.apache.maven.DefaultMaven.execute(DefaultMaven.java:105),
-  org.apache.maven.cli.MavenCli.execute(MavenCli.java:957),
-  org.apache.maven.cli.MavenCli.doMain(MavenCli.java:289),
-  org.apache.maven.cli.MavenCli.main(MavenCli.java:193),
-  java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method),
-  java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62),
-  java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43),
-  java.base/java.lang.reflect.Method.invoke(Method.java:566),
-  org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced(Launcher.java:282),
-  org.codehaus.plexus.classworlds.launcher.Launcher.launch(Launcher.java:225),
-  org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode(Launcher.java:406),
-  org.codehaus.plexus.classworlds.launcher.Launcher.main(Launcher.java:347),
-  java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method),
-  java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62),
-  java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43),
-  java.base/java.lang.reflect.Method.invoke(Method.java:566),
-  org.apache.maven.wrapper.BootstrapMainStarter.start(BootstrapMainStarter.java:39),
-  org.apache.maven.wrapper.WrapperExecutor.execute(WrapperExecutor.java:122),
-  org.apache.maven.wrapper.MavenWrapperMain.main(MavenWrapperMain.java:61)]
+[WARNING] Failed verification check: Invalid attempt to add bundle to configuration, no bundles found for this pattern:
+  org.aspectj.weaver.weaver-messages
+[ERROR] java.lang.IllegalStateException: ERROR: in 'com.okta.spring.boot.oauth.OktaOAuth2AutoConfig' these methods are
+  directly invoking methods marked @Bean: [oidcUserService] - due to the enforced proxyBeanMethods=false for components
+  in a native-image, please consider refactoring to use instance injection. If you are confident this is not going to
+  affect your application, you may turn this check off using -Dspring.native.verify=false.
 ```
