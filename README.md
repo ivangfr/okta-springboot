@@ -182,10 +182,51 @@ docker rmi ivanfranchin/simple-service:1.0.0
 
 Unable to build to Docker native image, see [issue #192](https://github.com/okta/okta-spring-boot/issues/192)
 ```
-[WARNING] Failed verification check: Invalid attempt to add bundle to configuration, no bundles found for this pattern:
-  org.aspectj.weaver.weaver-messages
-[ERROR] java.lang.IllegalStateException: ERROR: in 'com.okta.spring.boot.oauth.OktaOAuth2AutoConfig' these methods are
-  directly invoking methods marked @Bean: [oidcUserService] - due to the enforced proxyBeanMethods=false for components
-  in a native-image, please consider refactoring to use instance injection. If you are confident this is not going to
-  affect your application, you may turn this check off using -Dspring.native.verify=false.
+[WARNING] Failed verification check: Invalid attempt to add bundle to configuration, no bundles found for this pattern: org.aspectj.weaver.weaver-messages
+[ERROR] java.lang.IllegalStateException: ERROR: in 'com.okta.spring.boot.oauth.OktaOAuth2AutoConfig' these methods are directly invoking methods marked @Bean: [oidcUserService] - due to the enforced proxyBeanMethods=false for components in a native-image, please consider refactoring to use instance injection. If you are confident this is not going to affect your application, you may turn this check off using -Dspring.native.verify=false.
+[ERROR] [org.springframework.nativex.type.Type.verifyComponent(Type.java:2519),
+   org.springframework.nativex.support.ResourcesHandler.processType(ResourcesHandler.java:1340),
+   org.springframework.nativex.support.ResourcesHandler.processType(ResourcesHandler.java:1007),
+   org.springframework.nativex.support.ResourcesHandler.checkAndRegisterConfigurationType(ResourcesHandler.java:997),
+   org.springframework.nativex.support.ResourcesHandler.processFactoriesKey(ResourcesHandler.java:925),
+   org.springframework.nativex.support.ResourcesHandler.processSpringFactory(ResourcesHandler.java:874),
+   org.springframework.nativex.support.ResourcesHandler.processSpringFactories(ResourcesHandler.java:697),
+   org.springframework.nativex.support.ResourcesHandler.register(ResourcesHandler.java:114),
+   org.springframework.nativex.support.SpringAnalyzer.analyze(SpringAnalyzer.java:87),
+   org.springframework.aot.nativex.ConfigurationContributor.contribute(ConfigurationContributor.java:70),
+   org.springframework.aot.BootstrapCodeGenerator.generate(BootstrapCodeGenerator.java:77),
+   org.springframework.aot.maven.TestGenerateMojo.execute(TestGenerateMojo.java:65),
+   org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo(DefaultBuildPluginManager.java:137),
+   org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:210),
+   org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:156),
+   org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:148),
+   org.apache.maven.lifecycle.internal.MojoExecutor.executeForkedExecutions(MojoExecutor.java:355),
+   org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:200),
+   org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:156),
+   org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:148),
+   org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:117),
+   org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:81),
+   org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build(SingleThreadedBuilder.java:56),
+   org.apache.maven.lifecycle.internal.LifecycleStarter.execute(LifecycleStarter.java:128),
+   org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:305),
+   org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:192),
+   org.apache.maven.DefaultMaven.execute(DefaultMaven.java:105),
+   org.apache.maven.cli.MavenCli.execute(MavenCli.java:972),
+   org.apache.maven.cli.MavenCli.doMain(MavenCli.java:293),
+   org.apache.maven.cli.MavenCli.main(MavenCli.java:196),
+   java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method),
+   java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62),
+   java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43),
+   java.base/java.lang.reflect.Method.invoke(Method.java:566),
+   org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced(Launcher.java:282),
+   org.codehaus.plexus.classworlds.launcher.Launcher.launch(Launcher.java:225),
+   org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode(Launcher.java:406),
+   org.codehaus.plexus.classworlds.launcher.Launcher.main(Launcher.java:347),
+   java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method),
+   java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62),
+   java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43),
+   java.base/java.lang.reflect.Method.invoke(Method.java:566),
+   org.apache.maven.wrapper.BootstrapMainStarter.start(BootstrapMainStarter.java:39),
+   org.apache.maven.wrapper.WrapperExecutor.execute(WrapperExecutor.java:122),
+   org.apache.maven.wrapper.MavenWrapperMain.main(MavenWrapperMain.java:61)]   
 ```

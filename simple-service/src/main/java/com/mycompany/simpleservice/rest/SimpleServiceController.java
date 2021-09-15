@@ -17,5 +17,4 @@ public class SimpleServiceController {
     public String getPrivateString(@AuthenticationPrincipal OidcUser oidcUser) {
         return String.format("%s, it is private.%n", oidcUser.getFullName());
     }
-
 }
