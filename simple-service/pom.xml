@@ -14,7 +14,7 @@
     <description>Demo project for Spring Boot</description>
 
     <properties>
-        <okta-spring.version>2.1.1</okta-spring.version>
+        <okta-spring.version>2.1.3</okta-spring.version>
     </properties>
 
     <dependencies>

@@ -16,7 +16,7 @@ The goal of this project is to create a simple [Spring Boot](https://docs.spring
 
 ## Prerequisites
 
-- [`Java 11+`](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
+- [`Java 11+`](https://www.oracle.com/java/technologies/downloads/#java11)
 - [`Okta` account](https://developer.okta.com/signup/)
 
 ## Configure Okta
@@ -30,11 +30,11 @@ The goal of this project is to create a simple [Spring Boot](https://docs.spring
 
 If you are in `Okta Developer Dashboard` home page, click `Admin` button on the top-right
 
-![okta-developer-home](images/okta-developer-home.png)
+![okta-developer-home](documentation/okta-developer-home.png)
 
 The picture below is how `Okta Admin Dashboard` looks like
 
-![okta-admin-dashboard](images/okta-admin-dashboard.png)
+![okta-admin-dashboard](documentation/okta-admin-dashboard.png)
 
 ### Add Application
 
