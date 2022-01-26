@@ -4,7 +4,7 @@ The goal of this project is to create a simple [Spring Boot](https://docs.spring
 
 > **Note:** In the repository [`okta-springboot-react`](https://github.com/ivangfr/okta-springboot-react) you can find a more complex example that involves:
 > - Implementation of a [`ReactJS`](https://reactjs.org/) front-end application and a `Spring Boot` back-end application, both secured by `Okta`
-> - Enabling and creating `Okta` groups (a.k.a `ROLES` of the applications)
+> - Enabling and creating `Okta` groups (a.k.a. `ROLES` of the applications)
 
 ## Application
 
@@ -119,7 +119,7 @@ The picture below is how `Okta Admin Dashboard` looks like
   - **Environment Variables**
     
     | Environment Variable | Description                                 |
-    | -------------------- | ------------------------------------------- |
+    |----------------------|---------------------------------------------|
     | `OKTA_CLIENT_ID`     | Specify the `Client ID` defined by Okta     |
     | `OKTA_CLIENT_SECRET` | Specify the `Client Secret` defined by Okta |
     | `OKTA_DOMAIN`        | Specify the `Domain` defined by Okta        |
@@ -163,9 +163,9 @@ Go to the terminal where the application is running and press `Ctrl+C`
 
 ### Docker image
 
-To remove the Docker images created by this project, go to terminal and run the following command
+To remove the Docker images created by this project, go to terminal and, inside `okta-springboot` root folder, run the following script
 ```
-docker rmi ivanfranchin/simple-service:1.0.0
+./remove-docker-images.sh
 ```
 
 ### Okta Configuration
@@ -186,3 +186,45 @@ docker rmi ivanfranchin/simple-service:1.0.0
 - Confirm deactivation by clicking `Deactivate Application` button
 - In Application list whose status is `INACTIVE`, click `Simple Service`'s `gear` icon and then click `Delete`
 - Confirm deletion by clicking `Delete Application` button
+
+## Issues
+
+After building successfully the Docker native image, we can see that some security filters present in JVM logs (marked with *) are not present in Native logs
+
+- JVM
+  ```
+  INFO 1 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [
+    org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1682e6a,
+    org.springframework.security.web.context.SecurityContextPersistenceFilter@25218a4d,
+    org.springframework.security.web.header.HeaderWriterFilter@7cb29ea8,
+    org.springframework.security.web.csrf.CsrfFilter@7b1a30e5,
+    org.springframework.security.web.authentication.logout.LogoutFilter@64c8fcfb,
+  * org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@7af0d91b,
+  * org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@1c7f6e96,
+  * org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@23f60b7d,
+  * org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@505d2bac,
+    org.springframework.security.web.savedrequest.RequestCacheAwareFilter@56da96b3,
+    org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@59ec7020,
+    org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4cecc15a,
+    org.springframework.security.web.session.SessionManagementFilter@7e747037,
+    org.springframework.security.web.access.ExceptionTranslationFilter@2fca3eb5,
+    org.springframework.security.web.access.intercept.FilterSecurityInterceptor@464ede1f
+  ]
+  ```
+
+- Native
+  ```
+  INFO 1 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [
+    org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@73703f0e,
+    org.springframework.security.web.context.SecurityContextPersistenceFilter@74eb08bd,
+    org.springframework.security.web.header.HeaderWriterFilter@7146881f,
+    org.springframework.security.web.csrf.CsrfFilter@4ec5994c,
+    org.springframework.security.web.authentication.logout.LogoutFilter@17f0c2ea,
+    org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6b94fe94,
+    org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3221e5ad,
+    org.springframework.security.web.authentication.AnonymousAuthenticationFilter@193869a3,
+    org.springframework.security.web.session.SessionManagementFilter@6bc076fd,
+    org.springframework.security.web.access.ExceptionTranslationFilter@4548022f,
+    org.springframework.security.web.access.intercept.FilterSecurityInterceptor@2393f04b
+  ]
+  ```
