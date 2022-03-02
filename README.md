@@ -82,7 +82,7 @@ The picture below is how `Okta Admin Dashboard` looks like
 - In the `Okta Admin Dashboard` main menu on the left, click `Applications` menu and then `Applications` sub-menu
 - In Applications list whose status are `ACTIVE`, select `Simple Service` application
 - Click `Assignments` tab
-- Edit `Mario Bros` by clicking on the `pen` icon
+- Edit `Mario Bros` by clicking the `pen` icon
 - Set `mario.bros@test.com` in the `User Name` text-field
 - Click `Save` button
 
