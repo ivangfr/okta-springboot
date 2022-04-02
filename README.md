@@ -213,6 +213,16 @@ In order to access the `simple-service` secured endpoints, you must have a `JWT`
   mario.bros@test.com, it is private.
   ```
 
+## Using simple-service Swagger
+
+- First, get the access token as explained in [`Getting Access Token`](#getting-access-token) section.
+
+- Open `simple-service` Swagger website http://localhost:8080/swagger-ui.html
+
+- Click `Authorize` button. Paste the access token in the `Value` field. Then, click `Authorize` and `Close` to finalize.
+
+- Done! You can now access the sensitive endpoints.
+
 ## Shutdown
 
 Go to the terminal where the application is running and press `Ctrl+C`
