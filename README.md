@@ -1,18 +1,20 @@
 # okta-springboot
 
-The goal of this project is to create a simple [Spring Boot](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) REST API application, called `simple-service`, that uses [`Okta`](https://www.okta.com/) to handle authentication.
+The goal of this project is to create a simple [Spring Boot](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) REST API application, called `simple-service`, and secure it with [`Okta`](https://www.okta.com/).
 
 > **Note:** In the repository [`okta-springboot-react`](https://github.com/ivangfr/okta-springboot-react) you can find a more complex example that involves:
-> - Implementation of a [`ReactJS`](https://reactjs.org/) front-end application and a `Spring Boot` back-end application, both secured by `Okta`
-> - Enabling and creating `Okta` groups (a.k.a. `ROLES` of the applications)
+> - Implementation of a [`ReactJS`](https://reactjs.org/) front-end application and a `Spring Boot` back-end application, both secured by `Okta`;
+> - Enabling and creating `Okta` groups (a.k.a. `ROLES` of the applications).
 
 ## Application
 
 - ### simple-service
 
-  `Spring Boot` Web Java application that exposes two endpoints:
-  - `/api/public`: endpoint that can be access by anyone, it is not secured
-  - `/api/private`: endpoint that can just be accessed by users registered in `Okta`
+  `Spring Boot` Web Java application that exposes the following endpoints:
+  - `GET /public`: it's a not secured endpoint, everybody can access it;
+  - `GET /private`: it's a secured endpoint, only accessible by users that provide a `JWT` access token issued by `Okta`;
+  - `POST /callback/token`: it's a not secured endpoint, used by `Okta` to return user's `JWT` access token;
+  - `GET /actuator/*`: they are not secured endpoint, used to expose operational information about the application.
 
 ## Prerequisites
 
@@ -44,12 +46,13 @@ The picture below is how `Okta Admin Dashboard` looks like
 - Enter the following values in the form
   - General Settings
     - App integration name: `Simple Service`
-    - Sign-in redirect URIs: `http://localhost:8080/login/oauth2/code/okta`
+    - Grant type: besides `Authorization Code` that is already checked, check also `Implicit (hybrid)`
+    - Sign-in redirect URIs: `http://localhost:8080/login/oauth2/code/okta` and `http://localhost:8080/callback/token`
     - Sign-out redirect URIs: `http://localhost:8080`
   - Assignments
     - Controlled access: `Skip group assignment for now`
 - Click `Save` button
-- On the next screen, it's shown the 3 important values you will need to configure and run the `Simple Service`: `Client ID`, `Client Secret` and `Okta Domain`
+- On the next screen, the `Client ID`, `Client Secret`, and `Okta Domain` of `Simple Service` are displayed. For this example, we will need `Client ID` and `Okta Domain`
   
 ### Add Person
 
@@ -92,8 +95,6 @@ The picture below is how `Okta Admin Dashboard` looks like
 
 - Export the following environment variables. Those values were obtained while [adding Application](#add-application).
   ```
-  export OKTA_CLIENT_ID=...
-  export OKTA_CLIENT_SECRET=...
   export OKTA_DOMAIN=...
   ```
 
@@ -118,33 +119,99 @@ The picture below is how `Okta Admin Dashboard` looks like
 
   - **Environment Variables**
     
-    | Environment Variable | Description                                 |
-    |----------------------|---------------------------------------------|
-    | `OKTA_CLIENT_ID`     | Specify the `Client ID` defined by Okta     |
-    | `OKTA_CLIENT_SECRET` | Specify the `Client Secret` defined by Okta |
-    | `OKTA_DOMAIN`        | Specify the `Domain` defined by Okta        |
+    | Environment Variable | Description                          |
+    |----------------------|--------------------------------------|
+    | `OKTA_DOMAIN`        | Specify the `Domain` defined by Okta |
 
   - **Start Docker Container**
     
     ```
     docker run --rm --name simple-service -p 8080:8080 \
-      -e OKTA_CLIENT_ID=${OKTA_CLIENT_ID} \
-      -e OKTA_CLIENT_SECRET=${OKTA_CLIENT_SECRET} \
       -e OKTA_DOMAIN=${OKTA_DOMAIN} \
       ivanfranchin/simple-service:1.0.0
     ```
 
-## Testing endpoints
+## Getting Access Token
 
-- Test `/public` endpoint
-  - In a browser, access http://localhost:8080/public
-  - It should return `It is public.`
+In order to access the `simple-service` secured endpoints, you must have a `JWT` access token. Below are the steps to get it.
 
-- Test `/private` endpoint
-  - In a browser, access http://localhost:8080/private
-  - It should redirect you to `Okta` login page
-  - Enter `Mario Bros` username (`mario.bros@test.com`) and password
-  - It should return `Mario Bros, it is private.`
+- In a terminal, create the following environment variables. Those values were obtained while [adding Application](#add-application)
+  ```
+  OKTA_CLIENT_ID=...
+  OKTA_DOMAIN=...
+  ```
+
+- Get Okta Access Token Url
+  ```
+  OKTA_ACCESS_TOKEN_URL="https://${OKTA_DOMAIN}/oauth2/default/v1/authorize?\
+  client_id=${OKTA_CLIENT_ID}\
+  &redirect_uri=http://localhost:8080/callback/token\
+  &scope=openid\
+  &response_type=token\
+  &response_mode=form_post\
+  &state=state\
+  &nonce=6jtp65rt9jf"
+
+  echo $OKTA_ACCESS_TOKEN_URL
+  ```
+
+- Copy the Okta Access Token Url from the previous step and paste it in a browser
+
+- The Okta login page will appear. Enter the username & password of the person added at the step [`Configuring Okta > Add person`](#add-person) and click `Sign In` button
+
+- It will redirect to `callback/token` endpoint of `simple-service` and the `Access token` will be displayed, together with other information
+  ```
+  {
+    "state": "state",
+    "access_token": "eyJraWQiOiJyNFdY...",
+    "token_type": "Bearer",
+    "expires_in": "3600",
+    "scope": "openid"
+  }
+  ```
+  > **Tip:** In [jwt.io](https://jwt.io), you can decode and verify the `JWT` access token
+
+## Calling simple-service endpoints using curl
+
+- **`GET /public`**
+
+  The `/public` endpoint is not secured, so we can call it without any problem.
+  ```
+  curl -i http://localhost:8080/public
+  ```
+  It should return
+  ```
+  HTTP/1.1 200
+  It is public.
+  ```
+
+- **`GET /private` without Access Token**
+
+  Try to call `/private` endpoint without informing the access token.
+  ```
+  curl -i http://localhost:8080/private
+  ```
+  It should return
+  ```
+  HTTP/1.1 401
+  ```
+
+- **`GET /private` with Access Token**
+
+  First, get the access token as explained in [`Getting Access Token`](#getting-access-token) section. Then, create an environment variable for the access token
+  ```
+  ACCESS_TOKEN=...
+  ```
+
+  Call `/private` endpoint informing the access token.
+  ```
+  curl -i http://localhost:8080/private -H "Authorization: Bearer $ACCESS_TOKEN"
+  ```
+  Response
+  ```
+  HTTP/1.1 200
+  mario.bros@test.com, it is private.
+  ```
 
 ## Shutdown
 
@@ -186,45 +253,3 @@ To remove the Docker images created by this project, go to terminal and, inside 
 - Confirm deactivation by clicking `Deactivate Application` button
 - In Application list whose status is `INACTIVE`, click `Simple Service`'s `gear` icon and then click `Delete`
 - Confirm deletion by clicking `Delete Application` button
-
-## Issues
-
-After building successfully the Docker native image, we can see that some security filters present in JVM logs (marked with *) are not present in Native logs
-
-- JVM
-  ```
-  INFO 1 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [
-    org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1682e6a,
-    org.springframework.security.web.context.SecurityContextPersistenceFilter@25218a4d,
-    org.springframework.security.web.header.HeaderWriterFilter@7cb29ea8,
-    org.springframework.security.web.csrf.CsrfFilter@7b1a30e5,
-    org.springframework.security.web.authentication.logout.LogoutFilter@64c8fcfb,
-  * org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@7af0d91b,
-  * org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@1c7f6e96,
-  * org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@23f60b7d,
-  * org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@505d2bac,
-    org.springframework.security.web.savedrequest.RequestCacheAwareFilter@56da96b3,
-    org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@59ec7020,
-    org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4cecc15a,
-    org.springframework.security.web.session.SessionManagementFilter@7e747037,
-    org.springframework.security.web.access.ExceptionTranslationFilter@2fca3eb5,
-    org.springframework.security.web.access.intercept.FilterSecurityInterceptor@464ede1f
-  ]
-  ```
-
-- Native
-  ```
-  INFO 1 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [
-    org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@73703f0e,
-    org.springframework.security.web.context.SecurityContextPersistenceFilter@74eb08bd,
-    org.springframework.security.web.header.HeaderWriterFilter@7146881f,
-    org.springframework.security.web.csrf.CsrfFilter@4ec5994c,
-    org.springframework.security.web.authentication.logout.LogoutFilter@17f0c2ea,
-    org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6b94fe94,
-    org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3221e5ad,
-    org.springframework.security.web.authentication.AnonymousAuthenticationFilter@193869a3,
-    org.springframework.security.web.session.SessionManagementFilter@6bc076fd,
-    org.springframework.security.web.access.ExceptionTranslationFilter@4548022f,
-    org.springframework.security.web.access.intercept.FilterSecurityInterceptor@2393f04b
-  ]
-  ```

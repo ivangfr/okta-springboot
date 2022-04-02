@@ -1,9 +1,13 @@
 package com.mycompany.simpleservice.rest;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.security.Principal;
+import java.util.Map;
 
 @RestController
 public class SimpleServiceController {
@@ -14,7 +18,12 @@ public class SimpleServiceController {
     }
 
     @GetMapping("/private")
-    public String getPrivateString(@AuthenticationPrincipal OidcUser oidcUser) {
-        return String.format("%s, it is private.%n", oidcUser.getFullName());
+    public String getPrivateString(Principal principal) {
+        return String.format("%s, it is private.%n", principal.getName());
+    }
+
+    @PostMapping("/callback/token")
+    public Map<String, String> callbackToken(@RequestBody MultiValueMap<String, String> queryMap) {
+        return queryMap.toSingleValueMap();
     }
 }
