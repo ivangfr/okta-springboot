@@ -1,10 +1,12 @@
 package com.mycompany.simpleservice.rest;
 
+import com.mycompany.simpleservice.security.WebSecurityConfig;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.jwt.JwtClaimNames;
 import org.springframework.test.context.TestPropertySource;
@@ -19,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
+@Import(WebSecurityConfig.class)
 @TestPropertySource(properties = {
         "spring.security.oauth2.resourceserver.jwt.issuer-uri=https://okta.okta.com/oauth2/default"
 })
@@ -28,7 +31,6 @@ class SimpleServiceControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Disabled("Not working since WebSecurityConfigurerAdapter was replaced by SecurityFilterChain bean")
     @Test
     void testGetPublicString() throws Exception {
         ResultActions resultActions = mockMvc.perform(get(API_PUBLIC))
