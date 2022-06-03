@@ -126,9 +126,7 @@ The picture below is how `Okta Admin Dashboard` looks like
   - **Start Docker Container**
     
     ```
-    docker run --rm --name simple-service -p 8080:8080 \
-      -e OKTA_DOMAIN=${OKTA_DOMAIN} \
-      ivanfranchin/simple-service:1.0.0
+    docker run --rm --name simple-service -p 8080:8080 -e OKTA_DOMAIN=${OKTA_DOMAIN} ivanfranchin/simple-service:1.0.0
     ```
 
 ## Getting Access Token
@@ -215,9 +213,9 @@ In order to access the `simple-service` secured endpoints, you must have a `JWT`
 
 ## Using simple-service Swagger
 
-- First, get the access token as explained in [`Getting Access Token`](#getting-access-token) section.
+- Access http://localhost:8080/swagger-ui.html
 
-- Open `simple-service` Swagger website http://localhost:8080/swagger-ui.html
+- Get the access token as explained in [`Getting Access Token`](#getting-access-token) section.
 
 - Click `Authorize` button. Paste the access token in the `Value` field. Then, click `Authorize` and `Close` to finalize.
 
