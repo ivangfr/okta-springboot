@@ -1,4 +1,4 @@
-package com.mycompany.simpleservice.rest;
+package com.ivanfranchin.simpleservice.rest;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.security.Principal;
 import java.util.Map;
 
-import static com.mycompany.simpleservice.config.SwaggerConfig.BEARER_KEY_SECURITY_SCHEME;
+import static com.ivanfranchin.simpleservice.config.SwaggerConfig.BEARER_KEY_SECURITY_SCHEME;
 
 @RestController
 public class SimpleServiceController {
@@ -19,7 +19,7 @@ public class SimpleServiceController {
     @Operation(summary = "Get string from public endpoint")
     @GetMapping("/public")
     public String getPublicString() {
-        return "It is public.\n";
+        return "It is public.";
     }
 
     @Operation(
@@ -27,7 +27,7 @@ public class SimpleServiceController {
             security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
     @GetMapping("/private")
     public String getPrivateString(Principal principal) {
-        return String.format("%s, it is private.%n", principal.getName());
+        return String.format("%s, it is private.", principal.getName());
     }
 
     @Operation(summary = "Endpoint used by Okta to send back the JWT access token")

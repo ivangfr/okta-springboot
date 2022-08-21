@@ -2,7 +2,7 @@
 
 The goal of this project is to create a simple [Spring Boot](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) REST API application, called `simple-service`, and secure it with [`Okta`](https://www.okta.com/).
 
-> **Note:** In the repository [`okta-springboot-react`](https://github.com/ivangfr/okta-springboot-react) you can find a more complex example that involves:
+> **Note**: In the repository [`okta-springboot-react`](https://github.com/ivangfr/okta-springboot-react) you can find a more complex example that involves:
 > - Implementation of a [`ReactJS`](https://reactjs.org/) front-end application and a `Spring Boot` back-end application, both secured by `Okta`;
 > - Enabling and creating `Okta` groups (a.k.a. `ROLES` of the applications).
 
@@ -18,7 +18,7 @@ The goal of this project is to create a simple [Spring Boot](https://docs.spring
 
 ## Prerequisites
 
-- [`Java 11+`](https://www.oracle.com/java/technologies/downloads/#java11)
+- [`Java 17+`](https://www.oracle.com/java/technologies/downloads/#java17)
 - [`Okta` account](https://developer.okta.com/signup/)
 
 ## Configure Okta
@@ -32,11 +32,11 @@ The goal of this project is to create a simple [Spring Boot](https://docs.spring
 
 If you are in `Okta Developer Dashboard` home page, click `Admin` button on the top-right
 
-![okta-developer-home](documentation/okta-developer-home.png)
+![okta-developer-home](documentation/okta-developer-home.jpeg)
 
 The picture below is how `Okta Admin Dashboard` looks like
 
-![okta-admin-dashboard](documentation/okta-admin-dashboard.png)
+![okta-admin-dashboard](documentation/okta-admin-dashboard.jpeg)
 
 ### Add Application
 
@@ -52,7 +52,8 @@ The picture below is how `Okta Admin Dashboard` looks like
   - Assignments
     - Controlled access: `Skip group assignment for now`
 - Click `Save` button
-- On the next screen, the `Client ID`, `Client Secret`, and `Okta Domain` of `Simple Service` are displayed. For this example, we will need `Client ID` and `Okta Domain`
+- The `Client ID` and `Client Secret` are displayed.
+- For this example, we will just need the `Client ID` and the `Okta Domain`. The `Okta Domain` can be obtained by clicking the button-menu present on the up-right corner of the screen.
   
 ### Add Person
 
@@ -77,7 +78,7 @@ The picture below is how `Okta Admin Dashboard` looks like
 
 ### Fix Person username
 
-> **Warning:** if we don't do the fix, we will see the following error
+> **Warning**: if we don't do the fix, we will see the following error
 > ```
 > Login with OAuth 2.0
 > [invalid_token_response] An error occurred while attempting to retrieve the OAuth 2.0 Access Token Response: 400 Bad Request: [{"error":"server_error","error_description":"The 'sub' system claim could not be evaluated."}]
@@ -167,7 +168,7 @@ In order to access the `simple-service` secured endpoints, you must have a `JWT`
     "scope": "openid"
   }
   ```
-  > **Tip:** In [jwt.io](https://jwt.io), you can decode and verify the `JWT` access token
+  > **Note**: In [jwt.io](https://jwt.io), you can decode and verify the `JWT` access token
 
 ## Calling simple-service endpoints using curl
 
@@ -213,7 +214,7 @@ In order to access the `simple-service` secured endpoints, you must have a `JWT`
 
 ## Using simple-service Swagger
 
-- Access http://localhost:8080/swagger-ui.html
+- Access http://localhost:8080/swagger-ui/index.html
 
 - Get the access token as explained in [`Getting Access Token`](#getting-access-token) section.
 
@@ -265,4 +266,4 @@ To remove the Docker images created by this project, go to terminal and, inside 
 
 ## Issues
 
-`TestPropertySource` annotation not working! Before starting the tests in a terminal the environment variable OKTA_DOMAIN must be set. See issue [#1577](https://github.com/spring-projects-experimental/spring-native/issues/1577)
+`TestPropertySource` annotation not working! Before starting the tests in a terminal the environment variable `OKTA_DOMAIN` must be set. See issue [#1577](https://github.com/spring-projects-experimental/spring-native/issues/1577)

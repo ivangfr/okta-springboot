@@ -1,7 +1,6 @@
-package com.mycompany.simpleservice.rest;
+package com.ivanfranchin.simpleservice.rest;
 
-import com.mycompany.simpleservice.security.WebSecurityConfig;
-import org.junit.jupiter.api.Disabled;
+import com.ivanfranchin.simpleservice.security.WebSecurityConfig;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +37,7 @@ class SimpleServiceControllerTest {
 
         resultActions.andExpect(status().isOk())
                 .andExpect(content().contentType(MEDIA_TYPE_TEXT_PLAIN_UTF8))
-                .andExpect(content().string("It is public.\n"));
+                .andExpect(content().string("It is public."));
     }
 
     @Test
@@ -57,7 +56,7 @@ class SimpleServiceControllerTest {
 
         resultActions.andExpect(status().isOk())
                 .andExpect(content().contentType(MEDIA_TYPE_TEXT_PLAIN_UTF8))
-                .andExpect(content().string("user@test.com, it is private.\n"));
+                .andExpect(content().string("user@test.com, it is private."));
     }
 
     private static final String API_PUBLIC = "/public";

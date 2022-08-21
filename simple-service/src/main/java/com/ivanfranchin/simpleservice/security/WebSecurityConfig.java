@@ -1,4 +1,4 @@
-package com.mycompany.simpleservice.security;
+package com.ivanfranchin.simpleservice.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -11,7 +11,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class WebSecurityConfig {
 
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/private").authenticated()
                 .antMatchers(HttpMethod.GET, "/public").permitAll()
