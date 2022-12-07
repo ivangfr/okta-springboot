@@ -80,8 +80,7 @@ The picture below is how `Okta Admin Dashboard` looks like
 
 > **Warning**: if we don't do the fix, we will see the following error
 > ```
-> Login with OAuth 2.0
-> [invalid_token_response] An error occurred while attempting to retrieve the OAuth 2.0 Access Token Response: 400 Bad Request: [{"error":"server_error","error_description":"The 'sub' system claim could not be evaluated."}]
+> {"state":"state","error":"server_error","error_description":"The 'sub' system claim could not be evaluated."}
 >```
 - In the `Okta Admin Dashboard` main menu on the left, click `Applications` menu and then `Applications` sub-menu
 - In Applications list whose status are `ACTIVE`, select `Simple Service` application
@@ -214,7 +213,7 @@ In order to access the `simple-service` secured endpoints, you must have a `JWT`
 
 ## Using simple-service Swagger
 
-- Access http://localhost:8080/swagger-ui/index.html
+- Access http://localhost:8080/swagger-ui.html
 
 - Get the access token as explained in [`Getting Access Token`](#getting-access-token) section.
 
