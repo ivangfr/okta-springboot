@@ -6,6 +6,10 @@ The goal of this project is to create a simple [Spring Boot](https://docs.spring
 > - Implementation of a [`ReactJS`](https://reactjs.org/) front-end application and a `Spring Boot` back-end application, both secured by `Okta`;
 > - Enabling and creating `Okta` groups (a.k.a. `ROLES` of the applications).
 
+## Project Diagram
+
+![project-diagram](documentation/project-diagram.png)
+
 ## Application
 
 - ### simple-service
