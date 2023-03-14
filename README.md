@@ -231,13 +231,10 @@ Go to the terminal where the application is running and press `Ctrl+C`
 
 ## Running Test Cases
 
-- In a terminal, make sure you are inside `okta-springboot` root folder
-
-- Run the command below to start the **Unit Tests**
-  ```
-  export OKTA_DOMAIN=okta.okta.com
-  ./mvnw clean test --projects simple-service
-  ```
+In a terminal and inside `okta-springboot` root folder, run the command below
+```
+./mvnw clean test --projects simple-service
+```
 
 ## Cleanup
 
@@ -266,7 +263,3 @@ To remove the Docker images created by this project, go to terminal and, inside 
 - Confirm deactivation by clicking `Deactivate Application` button
 - In Application list whose status is `INACTIVE`, click `Simple Service`'s `gear` icon and then click `Delete`
 - Confirm deletion by clicking `Delete Application` button
-
-## Issues
-
-`TestPropertySource` annotation not working! Before starting the tests in a terminal the environment variable `OKTA_DOMAIN` must be set. See issue [#1577](https://github.com/spring-projects-experimental/spring-native/issues/1577)
