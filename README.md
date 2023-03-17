@@ -8,7 +8,7 @@ The goal of this project is to create a simple [Spring Boot](https://docs.spring
 
 ## Project Diagram
 
-![project-diagram](documentation/project-diagram.png)
+![project-diagram](documentation/project-diagram.jpeg)
 
 ## Application
 
