@@ -1,6 +1,7 @@
-package com.ivanfranchin.simpleservice.rest;
+package com.ivanfranchin.simpleservice.controller;
 
 import com.ivanfranchin.simpleservice.security.WebSecurityConfig;
+import com.ivanfranchin.simpleservice.service.MessageServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -17,28 +18,29 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Import(WebSecurityConfig.class)
+@Import({WebSecurityConfig.class, MessageServiceImpl.class})
 @TestPropertySource(properties = {
-        "spring.security.oauth2.resourceserver.jwt.issuer-uri=https://okta.okta.com/oauth2/default"
+        "spring.security.oauth2.resourceserver.jwt.issuer-uri=https://okta.okta.com/oauth2/default",
+        "spring.security.oauth2.client.provider.okta.issuer-uri=https://okta.okta.com/oauth2/default"
 })
-@WebMvcTest(SimpleServiceController.class)
-class SimpleServiceControllerTest {
+@WebMvcTest(APIController.class)
+class APIControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    void testGetPublicString() throws Exception {
+    void testGetPublic() throws Exception {
         ResultActions resultActions = mockMvc.perform(get(API_PUBLIC))
                 .andDo(print());
 
         resultActions.andExpect(status().isOk())
                 .andExpect(content().contentType(MEDIA_TYPE_TEXT_PLAIN_UTF8))
-                .andExpect(content().string("It is public."));
+                .andExpect(content().string("It's a public message."));
     }
 
     @Test
-    void testGetPrivateStringWithoutToken() throws Exception {
+    void testGetPrivateWithoutToken() throws Exception {
         ResultActions resultActions = mockMvc.perform(get(API_PRIVATE))
                 .andDo(print());
 
@@ -46,18 +48,18 @@ class SimpleServiceControllerTest {
     }
 
     @Test
-    void testGetPrivateStringWithValidToken() throws Exception {
+    void testGetPrivateWithValidToken() throws Exception {
         ResultActions resultActions = mockMvc.perform(
                         get(API_PRIVATE).with(jwt().jwt(jwt -> jwt.claim(JwtClaimNames.SUB, "user@test.com"))))
                 .andDo(print());
 
         resultActions.andExpect(status().isOk())
                 .andExpect(content().contentType(MEDIA_TYPE_TEXT_PLAIN_UTF8))
-                .andExpect(content().string("user@test.com, it is private."));
+                .andExpect(content().string("user@test.com, it's a private message."));
     }
 
-    private static final String API_PUBLIC = "/public";
-    private static final String API_PRIVATE = "/private";
+    private static final String API_PUBLIC = "/api/public";
+    private static final String API_PRIVATE = "/api/private";
 
     private static final MediaType MEDIA_TYPE_TEXT_PLAIN_UTF8 = MediaType.valueOf("text/plain;charset=UTF-8");
 }

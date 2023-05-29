@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Service</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.5.0/semantic.min.css">
+</head>
+<body>
+
+<header>
+    <div class="ui huge menu">
+        <div class="item">
+            <i class="map signs outline icon"></i>
+            Simple Service
+        </div>
+        <div class="right menu">
+            <a class="ui item" th:href="@{/logout}">
+                Logout
+            </a>
+        </div>
+    </div>
+</header>
+
+<main>
+    <div class="ui basic segment">
+        <div class="ui huge center aligned header" style="font-size: 4em">
+            Welcome to Simple Service
+        </div>
+        <div class="ui stackable internally celled grid">
+            <div class="six wide column">
+                <div class="ui centered card">
+                    <div class="image">
+                        <div class="ui placeholder">
+                            <div class="square image"></div>
+                        </div>
+                        <img class="avatarImg" th:src="${avatar}">
+                    </div>
+                </div>
+                <div class="ui huge center aligned header">
+                    <span th:text="${email}"></span>
+                </div>
+            </div>
+            <div class="ten wide column">
+                <h2 class="ui dividing header">Public message</h2>
+                <p th:text="${publicMessage}"></p>
+                <h2 class="ui dividing header">Private message</h2>
+                <p th:text="${privateMessage}"></p>
+                <p></p>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.5.0/semantic.min.js"></script>
+<script>
+    $('.avatarImg')
+    .hide()
+    .one("load", function() {
+        $(this).show()
+        $(".placeholder").hide()
+    })
+    .each(function() {
+        if(this.complete) {
+            $(this).trigger('load')
+        }
+    })
+</script>
+
+</body>
+</html>

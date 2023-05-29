@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Service</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.5.0/semantic.min.css">
+
+    <style>
+        body > .grid {
+          height: 75%;
+        }
+    </style>
+</head>
+
+<header>
+    <div class="ui huge menu">
+        <div class="item">
+            <i class="map signs outline icon"></i>
+            Simple Service
+        </div>
+    </div>
+</header>
+
+<body>
+
+<div class="ui middle aligned center aligned grid">
+    <div class="column">
+        <h2 class="ui center aligned icon header">
+            <i class="circular users icon"></i>
+            Sign in
+        </h2>
+        <div class="ui compact labeled icon menu">
+            <a class="item" th:href="@{/oauth2/authorization/okta}">
+                <i class="openid alternate icon"></i>
+                Okta
+            </a>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.5.0/semantic.min.js"></script>
+
+</body>
+</html>

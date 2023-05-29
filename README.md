@@ -1,6 +1,6 @@
 # okta-springboot
 
-The goal of this project is to create a simple [Spring Boot](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) REST API application, called `simple-service`, and secure it with [`Okta`](https://www.okta.com/).
+The objective of this project is to develop a secure `simple-service` application using [Spring Boot](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) and integrate it with [`Okta`](https://www.okta.com/) for authentication and authorization.
 
 > **Note**: In the repository [`okta-springboot-react`](https://github.com/ivangfr/okta-springboot-react) you can find a more complex example that involves:
 > - Implementation of a [`ReactJS`](https://reactjs.org/) front-end application and a `Spring Boot` back-end application, both secured by `Okta`;
@@ -14,11 +14,20 @@ The goal of this project is to create a simple [Spring Boot](https://docs.spring
 
 - ### simple-service
 
-  `Spring Boot` Web Java application that exposes the following endpoints:
-  - `GET /public`: it's a not secured endpoint, everybody can access it;
-  - `GET /private`: it's a secured endpoint, only accessible by users that provide a `JWT` access token issued by `Okta`;
-  - `POST /callback/token`: it's a not secured endpoint, used by `Okta` to return user's `JWT` access token;
-  - `GET /actuator/*`: they are not secured endpoint, used to expose operational information about the application.
+  `Spring Boot` Web Java application offers a user interface (UI) that requires users to log in using their `Okta` accounts. After successful login, users can access and view both their public and private messages.
+
+  | Login                                    | Index                                    |
+  |------------------------------------------|------------------------------------------|
+  | ![ui-login](documentation/ui-login.jpeg) | ![ui-index](documentation/ui-index.jpeg) |
+
+  It also exposes the following endpoints:
+
+  | Endpoint                   | Description                                                                                         | Secured |
+  |----------------------------|-----------------------------------------------------------------------------------------------------|---------|
+  | `GET /api/private`         | Retrieve the private message. Only accessible by users that provide a Access Token issued by `Okta` | YES     |
+  | `GET /api/public`          | Retrieve the public message                                                                         | NO      |
+  | `POST /api/callback/token` | Used by `Okta` to return user's Access Token                                                        | NO      |
+  | `GET /actuator/*`          | Used to expose operational information about the application                                        | NO      |
 
 ## Prerequisites
 
@@ -51,13 +60,13 @@ The picture below is how `Okta Admin Dashboard` looks like
   - General Settings
     - App integration name: `Simple Service`
     - Grant type: besides `Authorization Code` that is already checked, check also `Implicit (hybrid)`
-    - Sign-in redirect URIs: `http://localhost:8080/login/oauth2/code/okta` and `http://localhost:8080/callback/token`
+    - Sign-in redirect URIs: `http://localhost:8080/login/oauth2/code/okta` and `http://localhost:8080/api/callback/token`
     - Sign-out redirect URIs: `http://localhost:8080`
   - Assignments
     - Controlled access: `Skip group assignment for now`
 - Click `Save` button
-- The `Client ID` and `Client Secret` are displayed.
-- For this example, we will just need the `Client ID` and the `Okta Domain`. The `Okta Domain` can be obtained by clicking the button-menu present on the up-right corner of the screen.
+- The `Client ID` and `Client Secret` are generated.
+- The `Okta Domain` can be obtained by clicking the button-menu present on the up-right corner of the screen.
   
 ### Add Person
 
@@ -97,9 +106,11 @@ The picture below is how `Okta Admin Dashboard` looks like
 
 - Open a terminal and make sure you are in `okta-springboot` root folder
 
-- Export the following environment variables. Those values were obtained while [adding Application](#add-application).
+- Export the following environment variables. Those values were obtained while [adding application](#add-application) in `Okta`.
   ```
   export OKTA_DOMAIN=...
+  export OKTA_CLIENT_ID=...
+  export OKTA_CLIENT_SECRET=...
   ```
 
 - ### Running application using Maven
@@ -121,38 +132,50 @@ The picture below is how `Okta Admin Dashboard` looks like
       ./docker-build.sh native
       ```
 
-  - **Environment Variables**
+   **Environment Variables**
     
-    | Environment Variable | Description                          |
-    |----------------------|--------------------------------------|
-    | `OKTA_DOMAIN`        | Specify the `Domain` defined by Okta |
+    | Environment Variable | Description                                 |
+    |----------------------|---------------------------------------------|
+    | `OKTA_DOMAIN`        | Specify the `Domain` defined by Okta        |
+    | `OKTA_CLIENT_ID`     | Specify the `Client ID` defined by Okta     |
+    | `OKTA_CLIENT_SECRET` | Specify the `Client Secret` defined by Okta |
 
   - **Start Docker Container**
     
     ```
-    docker run --rm --name simple-service -p 8080:8080 -e OKTA_DOMAIN=${OKTA_DOMAIN} ivanfranchin/simple-service:1.0.0
+    docker run --rm --name simple-service -p 8080:8080 \
+    -e OKTA_DOMAIN=${OKTA_DOMAIN} \
+    -e OKTA_CLIENT_ID=${OKTA_CLIENT_ID} \
+    -e OKTA_CLIENT_SECRET=${OKTA_CLIENT_SECRET} \
+    ivanfranchin/simple-service:1.0.0
     ```
+## Application URLs
+
+| Application    | Type    | URL                                   |
+|----------------|---------|---------------------------------------|
+| simple-service | UI      | http://localhost:8080                 |
+| simple-service | Swagger | http://localhost:8080/swagger-ui.html |
 
 ## Getting Access Token
 
-In order to access the `simple-service` secured endpoints, you must have a `JWT` access token. Below are the steps to get it.
+In order to access the `simple-service` secured endpoints, you must have a Access Token. Below are the steps to get it.
 
-- In a terminal, create the following environment variables. Those values were obtained while [adding Application](#add-application)
+- In a terminal, create the following environment variables. Those values were obtained while [adding application](#add-application) in `Okta`.
   ```
-  OKTA_CLIENT_ID=...
   OKTA_DOMAIN=...
+  OKTA_CLIENT_ID=...
   ```
 
 - Get Okta Access Token Url
   ```
   OKTA_ACCESS_TOKEN_URL="https://${OKTA_DOMAIN}/oauth2/default/v1/authorize?\
   client_id=${OKTA_CLIENT_ID}\
-  &redirect_uri=http://localhost:8080/callback/token\
+  &redirect_uri=http://localhost:8080/api/callback/token\
   &scope=openid\
   &response_type=token\
   &response_mode=form_post\
   &state=state\
-  &nonce=6jtp65rt9jf"
+  &nonce=myNonceValue"
 
   echo $OKTA_ACCESS_TOKEN_URL
   ```
@@ -161,7 +184,7 @@ In order to access the `simple-service` secured endpoints, you must have a `JWT`
 
 - The Okta login page will appear. Enter the username & password of the person added at the step [`Configuring Okta > Add person`](#add-person) and click `Sign In` button
 
-- It will redirect to `callback/token` endpoint of `simple-service` and the `Access token` will be displayed, together with other information
+- It will redirect to `api/callback/token` endpoint of `simple-service` and the `Access token` will be displayed, together with other information
   ```
   {
     "state": "state",
@@ -171,48 +194,48 @@ In order to access the `simple-service` secured endpoints, you must have a `JWT`
     "scope": "openid"
   }
   ```
-  > **Note**: In [jwt.io](https://jwt.io), you can decode and verify the `JWT` access token
+  > **Note**: In [jwt.io](https://jwt.io), you can decode and verify the Access Token
 
 ## Calling simple-service endpoints using curl
 
-- **`GET /public`**
+- **`GET api/public`**
 
-  The `/public` endpoint is not secured, so we can call it without any problem.
+  The `api/public` endpoint is not secured, so we can call it without any problem.
   ```
-  curl -i http://localhost:8080/public
+  curl -i http://localhost:8080/api/public
   ```
   It should return
   ```
   HTTP/1.1 200
-  It is public.
+  It's a public message.
   ```
 
-- **`GET /private` without Access Token**
+- **`GET api/private` without Access Token**
 
-  Try to call `/private` endpoint without informing the access token.
+  Try to call `api/private` endpoint without informing the Access Token.
   ```
-  curl -i http://localhost:8080/private
+  curl -i http://localhost:8080/api/private
   ```
   It should return
   ```
   HTTP/1.1 401
   ```
 
-- **`GET /private` with Access Token**
+- **`GET api/private` with Access Token**
 
   First, get the access token as explained in [`Getting Access Token`](#getting-access-token) section. Then, create an environment variable for the access token
   ```
   ACCESS_TOKEN=...
   ```
 
-  Call `/private` endpoint informing the access token.
+  Call `api/private` endpoint informing the access token.
   ```
-  curl -i http://localhost:8080/private -H "Authorization: Bearer $ACCESS_TOKEN"
+  curl -i http://localhost:8080/api/private -H "Authorization: Bearer $ACCESS_TOKEN"
   ```
   Response
   ```
   HTTP/1.1 200
-  mario.bros@test.com, it is private.
+  mario.bros@test.com, it's a private message.
   ```
 
 ## Using simple-service Swagger
@@ -221,7 +244,7 @@ In order to access the `simple-service` secured endpoints, you must have a `JWT`
 
 - Get the access token as explained in [`Getting Access Token`](#getting-access-token) section.
 
-- Click `Authorize` button. Paste the access token in the `Value` field. Then, click `Authorize` and `Close` to finalize.
+- Click `Authorize` button. Paste the Access Token in the `Value` field. Then, click `Authorize` and `Close` to finalize.
 
 - Done! You can now access the sensitive endpoints.
 
