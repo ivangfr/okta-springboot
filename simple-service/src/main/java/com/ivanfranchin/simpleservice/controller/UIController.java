@@ -16,21 +16,23 @@ public class UIController {
         this.messageService = messageService;
     }
 
+    @GetMapping("/")
+    public String index() {
+        return "index";
+    }
+
     @GetMapping("/login")
     public String login() {
         return "login";
     }
 
-    @GetMapping("/")
-    public String index(Model model, @AuthenticationPrincipal OidcUser user) {
-        if (user == null) {
-            return "login";
-        }
+    @GetMapping("/dashboard")
+    public String dashboard(Model model, @AuthenticationPrincipal OidcUser user) {
         model.addAttribute("avatar", DICE_BEAR_URL_TEMPLATE.formatted(System.currentTimeMillis()));
         model.addAttribute("email", user.getEmail());
         model.addAttribute("publicMessage", messageService.getPublic());
         model.addAttribute("privateMessage", messageService.getPrivate(user.getName()));
-        return "index";
+        return "dashboard";
     }
 
     private static final String DICE_BEAR_URL_TEMPLATE = "https://api.dicebear.com/6.x/avataaars/svg?seed=%s";
