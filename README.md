@@ -6,6 +6,16 @@ The objective of this project is to develop a secure `simple-service` applicatio
 > - Implementation of a [`ReactJS`](https://reactjs.org/) front-end application and a `Spring Boot` back-end application, both secured by `Okta`;
 > - Enabling and creating `Okta` groups (a.k.a. `ROLES` of the applications).
 
+## Proof-of-Concepts & Articles
+
+On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-Concepts (PoCs) and articles. You can easily search for the technology you are interested in by using the filter. Who knows, perhaps I have already implemented a PoC or written an article about what you are looking for.
+
+## Additional Readings
+
+- \[**Medium**\] [**Implementing and Securing a Simple Spring Boot REST API with Okta**](https://medium.com/javarevisited/implementing-and-securing-a-simple-spring-boot-rest-api-with-okta-a5143696cd60)
+- \[**Medium**\] [**Implementing and Securing a Simple Spring Boot UI (Thymeleaf + RBAC) with Okta**](https://medium.com/javarevisited/implementing-and-securing-a-simple-spring-boot-ui-thymeleaf-rbac-with-okta-9489cbbcec25)
+- \[**Medium**\] [**Implementing and Securing a Spring Boot GraphQL API with Okta**](https://medium.com/javarevisited/implementing-and-securing-a-spring-boot-graphql-api-with-okta-78bc997359b4)
+
 ## Project Diagram
 
 ![project-diagram](documentation/project-diagram.jpeg)
