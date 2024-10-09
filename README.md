@@ -1,6 +1,6 @@
 # okta-springboot
 
-The objective of this project is to develop a secure `simple-service` application using [Spring Boot](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) and integrate it with [`Okta`](https://www.okta.com/) for authentication and authorization.
+The objective of this project is to develop a secure `simple-service` application using [Spring Boot](https://docs.spring.io/spring-boot/index.html) and integrate it with [`Okta`](https://www.okta.com/) for authentication and authorization.
 
 > **Note**: In the repository [`okta-springboot-react`](https://github.com/ivangfr/okta-springboot-react) you can find a more complex example that involves:
 > - Implementation of a [`ReactJS`](https://reactjs.org/) front-end application and a `Spring Boot` back-end application, both secured by `Okta`;
@@ -42,7 +42,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 ## Prerequisites
 
-- [`Java 17+`](https://www.oracle.com/java/technologies/downloads/#java17)
+- [`Java 21+`](https://www.oracle.com/java/technologies/downloads/#java21)
 - [`Okta` account](https://developer.okta.com/signup/)
 
 ## Configure Okta
@@ -110,7 +110,7 @@ The picture below is how `Okta Admin Dashboard` looks like
 - In Applications list whose status are `ACTIVE`, select `Simple Service` application
 - Click `Assignments` tab
 - Edit `Mario Bros` by clicking the `pen` icon
-- Set `mario.bros@test.com` in the `User Name` text-field
+- Set `mario.bros@test.com` in the `Username` text-field
 - Click `Save` button
 
 ## Start application
