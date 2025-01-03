@@ -1,6 +1,6 @@
 package com.ivanfranchin.simpleservice.controller;
 
-import com.ivanfranchin.simpleservice.security.WebSecurityConfig;
+import com.ivanfranchin.simpleservice.security.SecurityConfig;
 import com.ivanfranchin.simpleservice.service.MessageServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Import({WebSecurityConfig.class, MessageServiceImpl.class})
+@Import({SecurityConfig.class, MessageServiceImpl.class})
 @TestPropertySource(properties = {
         "spring.security.oauth2.resourceserver.jwt.issuer-uri=https://okta.okta.com/oauth2/default",
         "spring.security.oauth2.client.provider.okta.issuer-uri=https://okta.okta.com/oauth2/default"

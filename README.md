@@ -12,9 +12,9 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 ## Additional Readings
 
-- \[**Medium**\] [**Implementing and Securing a Simple Spring Boot REST API with Okta**](https://medium.com/javarevisited/implementing-and-securing-a-simple-spring-boot-rest-api-with-okta-a5143696cd60)
-- \[**Medium**\] [**Implementing and Securing a Simple Spring Boot UI (Thymeleaf + RBAC) with Okta**](https://medium.com/javarevisited/implementing-and-securing-a-simple-spring-boot-ui-thymeleaf-rbac-with-okta-9489cbbcec25)
-- \[**Medium**\] [**Implementing and Securing a Spring Boot GraphQL API with Okta**](https://medium.com/javarevisited/implementing-and-securing-a-spring-boot-graphql-api-with-okta-78bc997359b4)
+- \[**Medium**\] [**Implementing and Securing a Simple Spring Boot REST API with Okta**](https://medium.com/@ivangfr/implementing-and-securing-a-simple-spring-boot-rest-api-with-okta-a5143696cd60)
+- \[**Medium**\] [**Implementing and Securing a Simple Spring Boot UI (Thymeleaf + RBAC) with Okta**](https://medium.com/@ivangfr/implementing-and-securing-a-simple-spring-boot-ui-thymeleaf-rbac-with-okta-9489cbbcec25)
+- \[**Medium**\] [**Implementing and Securing a Spring Boot GraphQL API with Okta**](https://medium.com/@ivangfr/implementing-and-securing-a-spring-boot-graphql-api-with-okta-78bc997359b4)
 - \[**Medium**\] [**Building a Single Spring Boot App with Keycloak or Okta as IdP: Introduction**](https://medium.com/@ivangfr/building-a-single-spring-boot-app-with-keycloak-or-okta-as-idp-introduction-2814a4829aed)
 
 ## Project Diagram
@@ -42,8 +42,9 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 ## Prerequisites
 
-- [`Java 21+`](https://www.oracle.com/java/technologies/downloads/#java21)
+- [`Java 21`](https://www.oracle.com/java/technologies/downloads/#java21) or higher;
 - [`Okta` account](https://developer.okta.com/signup/)
+- A containerization tool (e.g., [`Docker`](https://www.docker.com), [`Podman`](https://podman.io), etc.)
 
 ## Configure Okta
 
@@ -133,15 +134,9 @@ The picture below is how `Okta Admin Dashboard` looks like
 - ### Running application as a Docker container
 
   - **Build Docker Image**
-    
-    - JVM
-      ```
-      ./docker-build.sh
-      ```
-    - Native
-      ```
-      ./docker-build.sh native
-      ```
+    ```
+    ./build-docker-images.sh
+    ```
 
    **Environment Variables**
     
@@ -252,11 +247,8 @@ In order to access the `simple-service` secured endpoints, you must have a Acces
 ## Using simple-service Swagger
 
 - Access http://localhost:8080/swagger-ui.html
-
 - Get the access token as explained in [`Getting Access Token`](#getting-access-token) section.
-
 - Click `Authorize` button. Paste the Access Token in the `Value` field. Then, click `Authorize` and `Close` to finalize.
-
 - Done! You can now access the sensitive endpoints.
 
 ## Shutdown
