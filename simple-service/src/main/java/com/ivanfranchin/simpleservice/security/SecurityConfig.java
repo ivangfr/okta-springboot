@@ -18,7 +18,6 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/", "/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/public").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/callback/token").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/actuator/**").permitAll()
                         .requestMatchers("/oauth2/**").permitAll()
                         .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs", "/v3/api-docs/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/private").authenticated()

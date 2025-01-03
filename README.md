@@ -38,7 +38,6 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
   | `GET /api/private`         | Retrieve the private message. Only accessible by users that provide a Access Token issued by `Okta` | YES     |
   | `GET /api/public`          | Retrieve the public message                                                                         | NO      |
   | `POST /api/callback/token` | Used by `Okta` to return user's Access Token                                                        | NO      |
-  | `GET /actuator/*`          | Used to expose operational information about the application                                        | NO      |
 
 ## Prerequisites
 
