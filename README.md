@@ -6,6 +6,8 @@ The objective of this project is to develop a secure `simple-service` applicatio
 > - Implementation of a [`ReactJS`](https://reactjs.org/) front-end application and a `Spring Boot` back-end application, both secured by `Okta`;
 > - Enabling and creating `Okta` groups (a.k.a. `ROLES` of the applications).
 
+**Important**: Since Okta removed the Developer Edition Account, this project will no longer be updated.
+
 ## Proof-of-Concepts & Articles
 
 On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-Concepts (PoCs) and articles. You can easily search for the technology you are interested in by using the filter. Who knows, perhaps I have already implemented a PoC or written an article about what you are looking for.
