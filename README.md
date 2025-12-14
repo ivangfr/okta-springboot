@@ -2,11 +2,11 @@
 
 The objective of this project is to develop a secure `simple-service` application using [Spring Boot](https://docs.spring.io/spring-boot/index.html) and integrate it with [`Okta`](https://www.okta.com/) for authentication and authorization.
 
+> **Important**: Since Okta removed the Developer Edition Account, this project will no longer be updated.
+
 > **Note**: In the repository [`okta-springboot-react`](https://github.com/ivangfr/okta-springboot-react) you can find a more complex example that involves:
 > - Implementation of a [`ReactJS`](https://reactjs.org/) front-end application and a `Spring Boot` back-end application, both secured by `Okta`;
 > - Enabling and creating `Okta` groups (a.k.a. `ROLES` of the applications).
-
-**Important**: Since Okta removed the Developer Edition Account, this project will no longer be updated.
 
 ## Proof-of-Concepts & Articles
 
